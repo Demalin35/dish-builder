@@ -1,5 +1,4 @@
-import { useMemo, useState } from "react";
-import "../styles/RecipeCarousel.css";
+import { useEffect, useMemo, useState } from "react";
 import bananaPancakes from "../images/banana_pancakes.jpg";
 import omelette from "../images/Omelette.png";
 import garlicPasta from "../images/garlic-pasta.jpg";
@@ -37,41 +36,74 @@ export default function RecipeCarousel({ onQuickAdd }) {
   );
 
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const prev = () => setIndex((i) => (i - 1 + recipes.length) % recipes.length);
   const next = () => setIndex((i) => (i + 1) % recipes.length);
 
+  useEffect(() => {
+    if (isPaused) return undefined;
+
+    const timer = window.setInterval(() => {
+      setIndex((i) => (i + 1) % recipes.length);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, [isPaused, recipes.length]);
+
   return (
-    <section className="empty-state" aria-label="Recipe suggestions">
-      <h2 className="empty-title">Need inspiration?</h2>
-      <p className="empty-subtitle">
+    <section className="mx-auto mt-10 w-full max-w-6xl" aria-label="Recipe suggestions">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
+        Featured inspiration
+      </p>
+      <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-800 sm:text-4xl">
+        Need inspiration?
+      </h2>
+      <p className="mt-2 max-w-xl text-sm text-stone-600 sm:text-base">
         Add ingredients above, or start from a popular recipe:
       </p>
 
-      <div className="carousel" role="region" aria-roledescription="carousel">
+      <div
+        className="mt-6 flex items-center gap-3"
+        role="region"
+        aria-roledescription="carousel"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <button
           type="button"
-          className="carousel-nav"
+          className="btn btn-secondary hidden h-11 w-11 rounded-full p-0 text-2xl leading-none sm:inline-flex"
           onClick={prev}
           aria-label="Previous recipe"
         >
           ‹
         </button>
 
-        <div className="carousel-viewport">
+        <div className="w-full overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] ring-1 ring-stone-200/70">
           <div
-            className="carousel-track"
+            className="flex transition-transform duration-300 ease-out"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
             {recipes.map((r) => (
-              <article key={r.title} className="carousel-slide">
-                <div className="slide-content">
-                  <h3 className="slide-title">{r.title}</h3>
-                  <p className="slide-desc">{r.description}</p>
+              <article
+                key={r.title}
+                className="grid min-w-full gap-5 p-5 sm:gap-8 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+              >
+                <div className="order-2 min-w-0 lg:order-1">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
+                    Recipe pick
+                  </p>
+                  <h3 className="mt-1 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
+                    {r.title}
+                  </h3>
+                  <p className="mt-2 text-base text-stone-600 sm:text-lg">{r.description}</p>
 
-                  <div className="slide-ingredients">
+                  <div className="mt-5 flex flex-wrap gap-2.5">
                     {r.ingredients.slice(0, 6).map((ing) => (
-                      <span key={ing} className="pill">
+                      <span
+                        key={ing}
+                        className="rounded-full bg-stone-100 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-stone-700"
+                      >
                         {ing}
                       </span>
                     ))}
@@ -80,7 +112,7 @@ export default function RecipeCarousel({ onQuickAdd }) {
                   {onQuickAdd && (
                     <button
                       type="button"
-                      className="slide-cta"
+                      className="btn btn-primary btn-md mt-6 w-full rounded-xl px-5 sm:w-auto"
                       onClick={() => onQuickAdd(r.ingredients)}
                     >
                       Use these ingredients
@@ -88,7 +120,11 @@ export default function RecipeCarousel({ onQuickAdd }) {
                   )}
                 </div>
 
-                <img src={r.image} alt={r.title} className="slide-image" />
+                <img
+                  src={r.image}
+                  alt={r.title}
+                  className="order-1 h-56 w-full rounded-2xl object-cover shadow-[var(--shadow-soft)] sm:h-64 lg:order-2 lg:h-80"
+                />
               </article>
             ))}
           </div>
@@ -96,7 +132,7 @@ export default function RecipeCarousel({ onQuickAdd }) {
 
         <button
           type="button"
-          className="carousel-nav"
+          className="btn btn-secondary hidden h-11 w-11 rounded-full p-0 text-2xl leading-none sm:inline-flex"
           onClick={next}
           aria-label="Next recipe"
         >
@@ -104,12 +140,16 @@ export default function RecipeCarousel({ onQuickAdd }) {
         </button>
       </div>
 
-      <div className="carousel-dots" aria-label="Carousel pagination">
+      <div className="mt-4 flex justify-center gap-2" aria-label="Carousel pagination">
         {recipes.map((_, i) => (
           <button
             key={i}
             type="button"
-            className={`dot ${i === index ? "active" : ""}`}
+            className={`h-2.5 rounded-full border transition ${
+              i === index
+                ? "w-7 border-brand-400 bg-brand-500"
+                : "w-2.5 border-stone-300 bg-white hover:border-brand-300"
+            }`}
             onClick={() => setIndex(i)}
             aria-label={`Go to slide ${i + 1}`}
             aria-current={i === index ? "true" : "false"}

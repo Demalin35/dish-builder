@@ -1,23 +1,60 @@
-# cod4a4f798a0efdc35043c6a4
+# Dish Builder
 
-Warning: Vite enforces using jsx syntax inside jsx/tsx files, so it will complain about that. Solution: rename `.js` files to `.jsx` :)
+## Local app startup
 
-Quick start:
-
+```bash
+npm install
+npm start
 ```
-$ npm install
-$ npm start
-````
 
-Head over to https://vitejs.dev/ to learn more about using vite
-## About Scrimba
+## Authentication and database setup
 
-At Scrimba our goal is to create the best possible coding school at the cost of a gym membership! 💜
-If we succeed with this, it will give anyone who wants to become a software developer a realistic shot at succeeding, regardless of where they live and the size of their wallets 🎉
-The Frontend Developer Career Path aims to teach you everything you need to become a Junior Developer, or you could take a deep-dive with one of our advanced courses 🚀
+The app now includes API-backed auth and user-owned saved recipes:
 
-- [Our courses](https://scrimba.com/allcourses)
-- [The Frontend Career Path](https://scrimba.com/learn/frontend)
-- [Become a Scrimba Pro member](https://scrimba.com/pricing)
+- `POST /api/auth.php?action=signup`
+- `POST /api/auth.php?action=login`
+- `GET /api/auth.php?action=me`
+- `POST /api/auth.php?action=logout`
+- `GET /api/saved_recipes.php`
+- `POST /api/saved_recipes.php`
+- `DELETE /api/saved_recipes.php`
 
-Happy Coding!
+### Required environment variables for PHP hosting
+
+Set one of the following database configurations on your PHP host:
+
+1) `DB_DSN` (single-string PDO DSN), or
+2) `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` (and optional `DB_CHARSET`)
+
+Example:
+
+```env
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=dish_builder
+DB_USER=dish_builder_user
+DB_PASSWORD=super_secret_password
+DB_CHARSET=utf8mb4
+OPENAI_API_KEY=your_openai_key
+```
+
+### Database schema
+
+Tables are auto-created by `api/bootstrap.php`:
+
+- `users`
+- `auth_tokens`
+- `saved_recipes`
+
+### Production notes
+
+- In production, set environment variables in your hosting panel or deployment config.
+- The frontend stores only the auth token in browser storage.
+- API access uses `Authorization: Bearer <token>`.
+- Passwords are hashed in PHP with `password_hash()`.
+
+### What to wire next
+
+- Replace token-table auth with JWT/cookie strategy if desired.
+- Add endpoint rate limiting and stricter validation.
+- Add password reset and email verification flows.
