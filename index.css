@@ -3,13 +3,13 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-brand-50: #fff7ed;
-  --color-brand-100: #ffedd5;
-  --color-brand-200: #fed7aa;
-  --color-brand-300: #fdba74;
-  --color-brand-500: #f97316;
-  --color-brand-600: #ea580c;
-  --color-brand-700: #c2410c;
+  --color-brand-50: #f6f9f0;
+  --color-brand-100: #e9f5db;
+  --color-brand-200: #cfe1b9;
+  --color-brand-300: #b5c99a;
+  --color-brand-500: #97a97c;
+  --color-brand-600: #CFE1B9;
+  --color-brand-700: #CFE1B9 ;
   --color-ink-700: #3f4651;
   --shadow-soft: 0 6px 20px -14px rgba(28, 25, 23, 0.24),
     0 2px 6px -3px rgba(28, 25, 23, 0.14);
@@ -19,7 +19,7 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-b from-amber-50/60 via-stone-50 to-orange-50/40 text-stone-800 antialiased;
+    @apply bg-gradient-to-b from-brand-100/45 via-stone-50 to-brand-50 text-stone-800 antialiased;
   }
 }
 
@@ -74,5 +74,41 @@
 
   .prose-recipe {
     @apply prose prose-stone max-w-none leading-7;
+  }
+
+  .recipe-section {
+    @apply rounded-2xl border border-stone-200 bg-stone-50/70 p-4 sm:p-5;
+  }
+
+  .recipe-section-title {
+    @apply mb-3 text-sm font-semibold uppercase tracking-wide text-stone-700;
+  }
+
+  .recipe-list {
+    @apply list-disc space-y-2 pl-5 text-sm leading-7 text-stone-700 sm:text-base;
+  }
+
+  .recipe-list-numbered {
+    @apply list-decimal;
+  }
+
+  .recipe-empty {
+    @apply text-sm text-stone-500 sm:text-base;
+  }
+
+  .recipe-image-skeleton {
+    background: linear-gradient(110deg, #f7f5f4 8%, #ece9e7 18%, #f7f5f4 33%);
+    background-size: 200% 100%;
+    animation: recipe-shimmer 1.2s linear infinite;
+  }
+
+  .recipe-image-fallback {
+    background: linear-gradient(135deg, #fff7ed, #f5f5f4);
+  }
+}
+
+@keyframes recipe-shimmer {
+  to {
+    background-position-x: -200%;
   }
 }

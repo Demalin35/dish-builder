@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const recipesApi = createApi({
   reducerPath: "recipesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_URL || "",
+  }),
   endpoints: (builder) => ({
     generateRecipe: builder.mutation({
       query: (ingredients) => ({

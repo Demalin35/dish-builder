@@ -50,13 +50,13 @@ export default function SignIn() {
     <main className="container-page py-8 sm:py-12">
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.1fr_0.9fr]">
         <div className="bg-gradient-to-br from-brand-600 to-brand-500 p-7 text-white sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-100">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-100">
             Welcome back
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             Sign in to your Dish Builder account
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-orange-50/95 sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-brand-50 sm:text-base">
             Access your saved recipes and keep your personal cooking preferences
             in sync.
           </p>

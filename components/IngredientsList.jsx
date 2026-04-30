@@ -17,7 +17,7 @@ export default function IngredientsList({
     >
       <button
         type="button"
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-emerald-600 bg-emerald-500 text-xs font-bold text-white transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-brand-600 bg-brand-500 text-xs font-bold text-white transition hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
         aria-label={`Remove ${ingredient}`}
         title={`Remove ${ingredient}`}
         onClick={() => onRemoveIngredient(ingredient)}
@@ -46,7 +46,7 @@ export default function IngredientsList({
         <div className="mt-6 flex flex-col gap-4 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-500 p-5 text-white shadow-[var(--shadow-soft-lg)] sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="text-lg font-semibold">Ready for a recipe?</h3>
-            <p className="mt-1 text-sm text-orange-100/90">
+            <p className="mt-1 text-sm text-brand-100/95">
               Generate a recipe from your list of ingredients.
             </p>
           </div>

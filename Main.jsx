@@ -103,9 +103,9 @@ export default function Main() {
 
   return (
     <main className="container-page py-6 sm:py-10">
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-100/70 via-white to-emerald-50/80 px-4 py-6 shadow-[var(--shadow-soft-lg)] sm:px-7 sm:py-9">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 px-4 py-6 shadow-[var(--shadow-soft-lg)] sm:px-7 sm:py-9">
         <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brand-300/30 blur-3xl" />
-        <div className="pointer-events-none absolute -left-10 bottom-0 h-44 w-44 rounded-full bg-emerald-200/40 blur-3xl" />
+        <div className="pointer-events-none absolute -left-10 bottom-0 h-44 w-44 rounded-full bg-brand-200/40 blur-3xl" />
         <div className="relative grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           <div className="max-w-3xl">
             <p className="inline-flex rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-700">

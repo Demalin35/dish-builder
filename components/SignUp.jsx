@@ -57,14 +57,14 @@ export default function SignUp() {
   return (
     <main className="container-page py-8 sm:py-12">
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="bg-gradient-to-br from-emerald-500 to-brand-600 p-7 text-white sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-100">
+        <div className="bg-gradient-to-br from-brand-500 to-brand-700 p-7 text-white sm:p-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-100">
             Start your kitchen profile
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             Create your Dish Builder account
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-emerald-50/95 sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-brand-50 sm:text-base">
             Save recipes, track preferences, and build a personal cooking space
             ready for future sync features.
           </p>

@@ -51,7 +51,7 @@ export default function Account() {
               </h3>
               <p className="mt-1 text-sm text-stone-600">{user?.email || "account@dishbuilder.app"}</p>
             </div>
-            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
               Active
             </span>
           </div>
@@ -115,7 +115,7 @@ export default function Account() {
             </li>
             <li className="flex items-center justify-between rounded-2xl bg-stone-50 px-3 py-2.5">
               <span className="text-sm font-medium text-stone-700">Notifications</span>
-              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+              <span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-700">
                 Enabled
               </span>
             </li>

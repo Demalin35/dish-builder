@@ -1,6 +1,14 @@
 <?php
 header("Content-Type: application/json; charset=utf-8");
 
+$envPath = __DIR__ . '/.env';
+if (file_exists($envPath)) {
+    $env = parse_ini_file($envPath);
+    if ($env && isset($env['OPENAI_API_KEY'])) {
+        putenv('OPENAI_API_KEY=' . $env['OPENAI_API_KEY']);
+    }
+}
+
 $apiKey = getenv('OPENAI_API_KEY');
 
 $input = json_decode(file_get_contents("php://input"), true);
