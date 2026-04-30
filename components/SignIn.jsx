@@ -49,14 +49,14 @@ export default function SignIn() {
   return (
     <main className="container-page py-8 sm:py-12">
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="bg-gradient-to-br from-brand-600 to-brand-500 p-7 text-white sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-100">
+        <div className="auth-panel-gradient p-7 sm:p-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
             Welcome back
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             Sign in to your Dish Builder account
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-brand-50 sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-stone-700 sm:text-base">
             Access your saved recipes and keep your personal cooking preferences
             in sync.
           </p>
@@ -108,14 +108,18 @@ export default function SignIn() {
 
             {formError && <p className="text-sm font-medium text-rose-600">{formError}</p>}
 
-            <button type="submit" className="btn btn-primary btn-lg w-full" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="btn btn-auth-primary btn-lg w-full"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Signing in..." : "Sign in"}
             </button>
           </form>
 
           <p className="mt-5 text-sm text-stone-600">
             New here?{" "}
-            <Link to="/signup" className="font-semibold text-brand-700 hover:text-brand-600">
+            <Link to="/signup" className="auth-link">
               Create an account
             </Link>
           </p>

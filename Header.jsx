@@ -8,7 +8,7 @@ export default function Header() {
     <header className="sticky top-0 z-30 border-b border-stone-200/70 bg-white/80 backdrop-blur-xl">
       <div className="container-page flex min-h-16 items-center justify-between py-3">
         <Link to="/" className="group inline-flex items-center">
-          <h1 className="bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 bg-clip-text text-2xl font-semibold tracking-tight text-transparent transition group-hover:opacity-90 sm:text-3xl">
+          <h1 className="logo-gradient-current bg-clip-text text-2xl font-semibold tracking-tight text-transparent transition group-hover:opacity-90 sm:text-3xl">
             Dish Builder
           </h1>
         </Link>

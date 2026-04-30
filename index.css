@@ -8,8 +8,8 @@
   --color-brand-200: #cfe1b9;
   --color-brand-300: #b5c99a;
   --color-brand-500: #97a97c;
-  --color-brand-600: #CFE1B9;
-  --color-brand-700: #CFE1B9 ;
+  --color-brand-600: #87986a;
+  --color-brand-700: #718355;
   --color-ink-700: #3f4651;
   --shadow-soft: 0 6px 20px -14px rgba(28, 25, 23, 0.24),
     0 2px 6px -3px rgba(28, 25, 23, 0.14);
@@ -38,6 +38,10 @@
 
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-xl border border-brand-600 bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition duration-200 ease-out hover:border-brand-700 hover:bg-brand-700 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45;
+  }
+
+  .btn-auth-primary {
+    @apply inline-flex items-center justify-center rounded-xl border border-brand-500 bg-brand-200 px-4 py-2.5 text-sm font-semibold text-brand-700 transition duration-200 ease-out hover:border-brand-600 hover:bg-brand-300 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
   }
 
   .btn-secondary {
@@ -70,6 +74,18 @@
 
   .tag-chip {
     @apply inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white/95 px-4 py-2.5 text-sm font-medium text-stone-700 shadow-[var(--shadow-soft)] transition duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700;
+  }
+
+  .auth-panel-gradient {
+    @apply bg-gradient-to-br from-brand-100 via-brand-200 to-brand-300 text-stone-800;
+  }
+
+  .auth-link {
+    @apply font-semibold text-brand-700 hover:text-brand-600;
+  }
+
+  .logo-gradient-current {
+    background-image: linear-gradient(to right, #cfe1b9, #cfe1b9, #97a97c);
   }
 
   .prose-recipe {

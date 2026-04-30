@@ -57,14 +57,14 @@ export default function SignUp() {
   return (
     <main className="container-page py-8 sm:py-12">
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="bg-gradient-to-br from-brand-500 to-brand-700 p-7 text-white sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-100">
+        <div className="auth-panel-gradient p-7 sm:p-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
             Start your kitchen profile
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             Create your Dish Builder account
           </h1>
-          <p className="mt-3 text-sm leading-relaxed text-brand-50 sm:text-base">
+          <p className="mt-3 text-sm leading-relaxed text-stone-700 sm:text-base">
             Save recipes, track preferences, and build a personal cooking space
             ready for future sync features.
           </p>
@@ -165,14 +165,18 @@ export default function SignUp() {
 
             {formError && <p className="text-sm font-medium text-rose-600">{formError}</p>}
 
-            <button type="submit" className="btn btn-primary btn-lg w-full" disabled={isSubmitting}>
+            <button
+              type="submit"
+              className="btn btn-auth-primary btn-lg w-full"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Creating account..." : "Create account"}
             </button>
           </form>
 
           <p className="mt-5 text-sm text-stone-600">
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-brand-700 hover:text-brand-600">
+            <Link to="/login" className="auth-link">
               Sign in
             </Link>
           </p>
