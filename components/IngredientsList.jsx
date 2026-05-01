@@ -1,7 +1,7 @@
 import RecipeCarousel from "./RecipeCarousel";
 import { useTranslation } from "react-i18next";
 
-const STATIC_INGREDIENT_IDS = new Set([
+const STATIC_INGREDIENT_IDS = [
   "egg",
   "cheese",
   "tomato",
@@ -14,7 +14,20 @@ const STATIC_INGREDIENT_IDS = new Set([
   "potato",
   "rice",
   "pepper",
-]);
+  "flour",
+  "banana",
+  "pasta",
+  "oliveOil",
+  "parmesan",
+  "avocado",
+  "salt",
+  "lemon",
+];
+
+const STATIC_INGREDIENT_LOOKUP = STATIC_INGREDIENT_IDS.reduce((lookup, ingredientId) => {
+  lookup.set(ingredientId.toLowerCase(), ingredientId);
+  return lookup;
+}, new Map());
 
 export default function IngredientsList({
   ingredients,
@@ -24,10 +37,10 @@ export default function IngredientsList({
   isGenerating = false,
 }) {
   const { t } = useTranslation();
-  const getDisplayIngredient = (ingredient) =>
-    STATIC_INGREDIENT_IDS.has(ingredient.toLowerCase())
-      ? t(`ingredients.${ingredient.toLowerCase()}`)
-      : ingredient;
+  const getDisplayIngredient = (ingredient) => {
+    const normalized = STATIC_INGREDIENT_LOOKUP.get(ingredient.toLowerCase());
+    return normalized ? t(`ingredients.${normalized}`) : ingredient;
+  };
 
   if (ingredients.length === 0) {
     return <RecipeCarousel onQuickAdd={onQuickAddIngredients} />;
