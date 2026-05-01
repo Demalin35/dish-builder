@@ -7,6 +7,7 @@ import { useGenerateRecipeMutation } from "./redux/recipesApi";
 import DishBuilder from "./components/DishBuilder";
 import ToastMessage from "./components/ToastMessage";
 import LoadingOverlay from "./components/LoadingOverlay";
+import MealPlannerPromo from "./components/MealPlannerPromo";
 import { useAuth } from "./context/AuthContext";
 import { saveRecipeForUser } from "./services/savedRecipesService";
 
@@ -303,6 +304,8 @@ export default function Main() {
           <DishBuilder recipe={recipe} onSaveRecipe={saveRecipe} />
         </div>
       )}
+
+      <MealPlannerPromo />
     </main>
   );
 }

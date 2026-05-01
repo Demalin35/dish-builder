@@ -23,7 +23,13 @@
     "featuredInspiration": "Featured inspiration",
     "needInspiration": "Need inspiration?",
     "inspirationSubtitle": "Add ingredients above, or start from a popular recipe:",
-    "recipePick": "Recipe pick"
+    "recipePick": "Recipe pick",
+    "mealPlannerPromo": {
+      "label": "MEAL PLANNING",
+      "title": "Turn saved recipes into a weekly menu",
+      "description": "Save your favorite recipe ideas, then organize breakfast, lunch, and dinner for the whole week - no more 'what should we eat today?' panic.",
+      "button": "Plan my week"
+    }
   },
   "ingredients": {
     "egg": "Egg",
