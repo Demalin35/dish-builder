@@ -1,0 +1,68 @@
+---
+description: Always follow these project guidelines when editing the Dish Builder app.
+alwaysApply: true
+---
+
+# Dish Builder Project Guidelines
+
+This is a React + PHP recipe generator app hosted on Hostinger.
+
+## General behavior
+
+- Make minimal, focused changes.
+- Do not refactor unrelated logic.
+- Preserve the existing visual style unless the task explicitly asks for a redesign.
+- Keep the soft green/cream Dish Builder styling consistent.
+- Keep desktop and mobile layouts responsive.
+- After changes, summarize modified files and what changed.
+
+## Frontend
+
+- Use existing React structure and components where possible.
+- Reuse existing UI patterns instead of creating duplicate systems.
+- Keep buttons, cards, rounded corners, shadows, and spacing consistent with the current design.
+- For mobile fixes, preserve desktop styling unless explicitly asked otherwise.
+
+## i18n
+
+- The app uses react-i18next.
+- Do not create a second i18n setup.
+- Keep English as default language.
+- Keep Russian as the second language.
+- Update both locales/en.json and locales/ru.json when adding visible UI text.
+- Do not use country flags.
+- Keep the language switcher text-only: EN / RU.
+- Static UI text should use translation keys.
+- User-generated recipe content should not be translated through i18n.
+- Generated recipes should follow the selected language through the recipe generation request.
+
+## Backend and security
+
+- PHP backend files live under api/.
+- Do not expose database credentials, OpenAI API keys, or Pexels API keys to the frontend.
+- Keep secrets server-side only.
+- Use prepared SQL statements.
+- Authenticated user data must be scoped to the current user only.
+- API responses should be valid JSON.
+- Do not output PHP warnings/notices into JSON responses.
+
+## API usage
+
+- Avoid unnecessary OpenAI API calls while debugging.
+- Avoid unnecessary Pexels API calls while debugging.
+- When testing API-related features, use the smallest number of real API calls possible.
+- Prefer inspecting code, logs, and environment configuration before making repeated live API requests.
+
+## Saved recipes
+
+- Saved recipes should display with structured sections where possible.
+- Reuse existing recipe display components if possible.
+- Keep support for older saved recipes that may be stored as plain text.
+- Saved recipe deletion must require authentication and must only affect the current user’s recipes.
+
+## Weekly meal planner
+
+- Preserve the existing planner behavior unless the task explicitly asks to change functionality.
+- Keep meal planner cards visually consistent with the rest of the app.
+- Keep mobile layout as one card per row.
+- Keep desktop layout responsive and readable.

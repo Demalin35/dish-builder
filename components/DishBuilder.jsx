@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { parseRecipeContent } from "../services/recipeContentService";
 import { fetchRecipeImage } from "../services/recipeImageService";
+import RecipeContentSections from "./RecipeContentSections";
 
 export default function DishBuilder({ recipe, onSaveRecipe }) {
   const { t } = useTranslation();
@@ -116,39 +117,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
           )}
         </div>
 
-        {parsedRecipe.introText && (
-          <p className="mb-6 text-sm leading-7 text-stone-600 sm:text-base">
-            {parsedRecipe.introText}
-          </p>
-        )}
-
-        <div className="grid gap-5">
-          <section className="recipe-section">
-            <h4 className="recipe-section-title">🧂 {t("recipeResult.ingredients")}</h4>
-            {parsedRecipe.ingredients.length ? (
-              <ul className="recipe-list">
-                {parsedRecipe.ingredients.map((ingredient, index) => (
-                  <li key={`${ingredient}-${index}`}>{ingredient}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="recipe-empty">{t("recipeResult.noIngredientsListed")}</p>
-            )}
-          </section>
-
-          <section className="recipe-section">
-            <h4 className="recipe-section-title">👨‍🍳 {t("recipeResult.cookingSteps")}</h4>
-            {parsedRecipe.steps.length ? (
-              <ol className="recipe-list recipe-list-numbered">
-                {parsedRecipe.steps.map((step, index) => (
-                  <li key={`${step}-${index}`}>{step}</li>
-                ))}
-              </ol>
-            ) : (
-              <p className="recipe-empty">{t("recipeResult.noStepsListed")}</p>
-            )}
-          </section>
-        </div>
+        <RecipeContentSections recipeContent={recipe} />
       </article>
     </section>
   );

@@ -96,6 +96,9 @@
     "noMatchingImage": "No matching image found.",
     "loadingImage": "Loading recipe image",
     "photoBy": "Photo",
+    "summary": "Summary",
+    "notes": "Notes",
+    "unstructuredContent": "Recipe details",
     "noIngredientsListed": "No ingredients listed.",
     "noStepsListed": "No steps listed."
   },
@@ -178,7 +181,11 @@
     "loadErrorFallback": "Unable to load saved recipes.",
     "savedItemLabel": "Saved #{{index}}",
     "fallbackTitle": "Saved recipe {{index}}",
-    "fallbackPreview": "A saved dish idea ready for your next cook."
+    "fallbackPreview": "A saved dish idea ready for your next cook.",
+    "removeRecipe": "Remove recipe",
+    "confirmRemove": "Are you sure you want to remove this saved recipe?",
+    "removeSuccess": "Recipe removed.",
+    "removeError": "Could not remove recipe. Please try again."
   },
   "mealPlanner": {
     "title": "Weekly Meal Planner",

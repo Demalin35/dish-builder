@@ -35,3 +35,10 @@ export async function saveRecipeForUser(recipe) {
     throw error;
   }
 }
+
+export async function deleteSavedRecipeForUser(recipeId) {
+  await apiRequest("/api/saved_recipes.php", {
+    method: "DELETE",
+    body: JSON.stringify({ id: recipeId }),
+  });
+}

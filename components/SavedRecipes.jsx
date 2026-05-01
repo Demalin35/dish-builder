@@ -1,12 +1,38 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
-import { getUserSavedRecipes } from "../services/savedRecipesService";
+import {
+  deleteSavedRecipeForUser,
+  getUserSavedRecipes,
+} from "../services/savedRecipesService";
 import WeeklyMealPlanner from "./WeeklyMealPlanner";
+import RecipeContentSections from "./RecipeContentSections";
+import ToastMessage from "./ToastMessage";
+import { parseRecipeContent } from "../services/recipeContentService";
 
-function parseRecipeMeta(recipeText, fallbackIndex, t) {
+function normalizeSavedContent(recipeContent) {
+  if (typeof recipeContent !== "string") return recipeContent;
+
+  const trimmed = recipeContent.trim();
+  if (!trimmed.startsWith("{")) return recipeContent;
+
+  try {
+    const parsed = JSON.parse(trimmed);
+    return parsed && typeof parsed === "object" ? parsed : recipeContent;
+  } catch {
+    return recipeContent;
+  }
+}
+
+function parseRecipeMeta(recipeContent, fallbackIndex, t) {
+  const normalizedContent = normalizeSavedContent(recipeContent);
+  const parsedRecipe = parseRecipeContent(normalizedContent);
+  const recipeText =
+    typeof recipeContent === "string"
+      ? recipeContent
+      : JSON.stringify(recipeContent ?? "");
+
   const lines = recipeText
     .split("\n")
     .map((line) => line.trim())
@@ -16,13 +42,15 @@ function parseRecipeMeta(recipeText, fallbackIndex, t) {
     lines.find((line) => /^#{1,3}\s+/.test(line)) ||
     lines.find((line) => /^[A-Za-z].{8,}$/.test(line));
 
-  const title = titleLine
+  const title = parsedRecipe.title
+    ? parsedRecipe.title
+    : titleLine
     ? titleLine.replace(/^#{1,3}\s+/, "")
     : t("savedRecipes.fallbackTitle", { index: fallbackIndex + 1 });
 
-  const preview =
-    lines.find((line) => !line.startsWith("#")) ||
-    t("savedRecipes.fallbackPreview");
+  const preview = parsedRecipe.introText
+    ? parsedRecipe.introText
+    : lines.find((line) => !line.startsWith("#")) || t("savedRecipes.fallbackPreview");
 
   const words = recipeText
     .toLowerCase()
@@ -68,6 +96,7 @@ export default function SavedRecipes() {
   const [recipes, setRecipes] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState("");
+  const [feedback, setFeedback] = React.useState({ message: "", tone: "success" });
 
   React.useEffect(() => {
     if (!user?.id) return;
@@ -94,8 +123,35 @@ export default function SavedRecipes() {
     };
   }, [user?.id, t]);
 
+  React.useEffect(() => {
+    if (!feedback.message) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setFeedback({ message: "", tone: "success" });
+    }, 2800);
+
+    return () => window.clearTimeout(timer);
+  }, [feedback]);
+
+  async function handleRemoveRecipe(recipeId) {
+    const didConfirm = window.confirm(t("savedRecipes.confirmRemove"));
+    if (!didConfirm) return;
+
+    try {
+      await deleteSavedRecipeForUser(recipeId);
+      setRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId));
+      setFeedback({ message: t("savedRecipes.removeSuccess"), tone: "success" });
+    } catch {
+      setFeedback({ message: t("savedRecipes.removeError"), tone: "error" });
+    }
+  }
+
   return (
     <section className="container-page py-8 sm:py-10">
+      <div className="toast-message-wrap">
+        <ToastMessage tone={feedback.tone} message={feedback.message} />
+      </div>
+
       <header className="max-w-3xl">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
           {t("savedRecipes.badge")}
@@ -146,13 +202,24 @@ export default function SavedRecipes() {
                 className="recipe-card surface-card flex h-full flex-col rounded-3xl p-5 sm:p-6"
               >
                 <div className="mb-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
-                    {t("savedRecipes.savedItemLabel", { index: index + 1 })}
-                  </p>
-                  <h3 className="mt-1 text-xl font-semibold tracking-tight text-stone-900">
-                    {meta.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-stone-600">{meta.preview}</p>
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
+                        {t("savedRecipes.savedItemLabel", { index: index + 1 })}
+                      </p>
+                      <h3 className="mt-1 text-xl font-semibold tracking-tight text-stone-900">
+                        {meta.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-stone-600">{meta.preview}</p>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-destructive btn-sm whitespace-nowrap"
+                      onClick={() => handleRemoveRecipe(recipeItem.id)}
+                    >
+                      {t("savedRecipes.removeRecipe")}
+                    </button>
+                  </div>
                 </div>
 
                 {meta.tags.length > 0 && (
@@ -173,7 +240,7 @@ export default function SavedRecipes() {
                     {t("buttons.viewFullRecipe")}
                   </summary>
                   <div className="mt-4 rounded-2xl bg-stone-50 p-4">
-                    <ReactMarkdown className="prose-recipe">{recipeItem.content}</ReactMarkdown>
+                    <RecipeContentSections recipeContent={recipeItem.content} />
                   </div>
                 </details>
               </article>
