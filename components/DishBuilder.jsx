@@ -1,8 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { parseRecipeContent } from "../services/recipeContentService";
 import { fetchRecipeImage } from "../services/recipeImageService";
 
 export default function DishBuilder({ recipe, onSaveRecipe }) {
+  const { t } = useTranslation();
   const [isSaved, setIsSaved] = React.useState(false);
   const [imageState, setImageState] = React.useState({
     isLoading: true,
@@ -54,7 +56,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
   return (
     <section className="container-page mt-12 pb-10 sm:mt-16">
       <h2 className="mx-auto mb-5 w-full max-w-3xl text-2xl font-semibold tracking-tight text-stone-800 sm:text-3xl">
-        Dish Builder Recommends
+        {t("recipeResult.title")}
       </h2>
       <article
         className="surface-card mx-auto w-full max-w-3xl rounded-3xl p-5 sm:p-8 shadow-[var(--shadow-soft-lg)]"
@@ -63,7 +65,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-brand-700">
-              🍽️ Recipe
+              🍽️ {t("recipeResult.recipe")}
             </p>
             <h3 className="mt-2 text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
               {parsedRecipe.title}
@@ -75,7 +77,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
             onClick={handleSave}
             disabled={isSaved}
           >
-            {isSaved ? "✅ Recipe saved" : "⭐ Save recipe"}
+            {isSaved ? `✅ ${t("recipeResult.recipeSaved")}` : `⭐ ${t("recipeResult.saveRecipe")}`}
           </button>
         </div>
 
@@ -83,7 +85,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
           {imageState.isLoading ? (
             <div
               className="recipe-image-skeleton h-56 w-full"
-              aria-label="Loading recipe image"
+              aria-label={t("recipeResult.loadingImage")}
             />
           ) : imageState.image ? (
             <>
@@ -94,7 +96,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
                 loading="lazy"
               />
               <div className="flex items-center justify-between border-t border-stone-200 bg-stone-50 px-3 py-2 text-xs text-stone-500">
-                <span>Photo: {imageState.image.photographerName}</span>
+                <span>{t("recipeResult.photoBy")}: {imageState.image.photographerName}</span>
                 <a
                   href={imageState.image.photographerUrl}
                   target="_blank"
@@ -108,8 +110,8 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
           ) : (
             <div className="recipe-image-fallback flex h-56 items-center justify-center px-4 text-sm font-medium text-stone-600">
               {imageState.hasError
-                ? "Image unavailable right now."
-                : "No matching image found."}
+                ? t("recipeResult.imageUnavailable")
+                : t("recipeResult.noMatchingImage")}
             </div>
           )}
         </div>
@@ -122,7 +124,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
 
         <div className="grid gap-5">
           <section className="recipe-section">
-            <h4 className="recipe-section-title">🧂 Ingredients</h4>
+            <h4 className="recipe-section-title">🧂 {t("recipeResult.ingredients")}</h4>
             {parsedRecipe.ingredients.length ? (
               <ul className="recipe-list">
                 {parsedRecipe.ingredients.map((ingredient, index) => (
@@ -130,12 +132,12 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
                 ))}
               </ul>
             ) : (
-              <p className="recipe-empty">No ingredients listed.</p>
+              <p className="recipe-empty">{t("recipeResult.noIngredientsListed")}</p>
             )}
           </section>
 
           <section className="recipe-section">
-            <h4 className="recipe-section-title">👨‍🍳 Cooking Steps</h4>
+            <h4 className="recipe-section-title">👨‍🍳 {t("recipeResult.cookingSteps")}</h4>
             {parsedRecipe.steps.length ? (
               <ol className="recipe-list recipe-list-numbered">
                 {parsedRecipe.steps.map((step, index) => (
@@ -143,7 +145,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
                 ))}
               </ol>
             ) : (
-              <p className="recipe-empty">No steps listed.</p>
+              <p className="recipe-empty">{t("recipeResult.noStepsListed")}</p>
             )}
           </section>
         </div>

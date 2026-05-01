@@ -1,0 +1,200 @@
+{
+  "header": {
+    "brand": "Dish Builder",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "savedRecipesFull": "Saved recipes",
+    "savedRecipesShort": "Saved",
+    "account": "Account",
+    "logout": "Logout",
+    "languageEn": "EN",
+    "languageRu": "RU"
+  },
+  "home": {
+    "badge": "Smart pantry cooking",
+    "title": "Build dinner from ingredients you already have",
+    "subtitle": "Add what is in your kitchen and get practical recipe ideas in seconds, including ways to use staples creatively.",
+    "inputPlaceholder": "e.g. oregano",
+    "quickAddTitle": "Quick add",
+    "quickAddHint": "Tap to add instantly",
+    "ingredientsOnHand": "Ingredients on hand",
+    "readyTitle": "Ready for a recipe?",
+    "readySubtitle": "Generate a recipe from your list of ingredients.",
+    "featuredInspiration": "Featured inspiration",
+    "needInspiration": "Need inspiration?",
+    "inspirationSubtitle": "Add ingredients above, or start from a popular recipe:",
+    "recipePick": "Recipe pick"
+  },
+  "ingredients": {
+    "egg": "Egg",
+    "cheese": "Cheese",
+    "tomato": "Tomato",
+    "garlic": "Garlic",
+    "onion": "Onion",
+    "milk": "Milk",
+    "bread": "Bread",
+    "butter": "Butter",
+    "chicken": "Chicken",
+    "potato": "Potato",
+    "rice": "Rice",
+    "pepper": "Pepper",
+    "flour": "Flour",
+    "banana": "Banana",
+    "pasta": "Pasta",
+    "oliveOil": "Olive oil",
+    "parmesan": "Parmesan",
+    "avocado": "Avocado",
+    "salt": "Salt",
+    "lemon": "Lemon"
+  },
+  "recommendations": {
+    "items": {
+      "bananaPancakes": {
+        "title": "Banana Pancakes",
+        "description": "Fluffy + quick breakfast."
+      },
+      "omelette": {
+        "title": "Omelette",
+        "description": "Classic + flexible."
+      },
+      "garlicPasta": {
+        "title": "Garlic Pasta",
+        "description": "5-min comfort food."
+      },
+      "avocadoToast": {
+        "title": "Avocado Toast",
+        "description": "Simple + satisfying."
+      }
+    }
+  },
+  "buttons": {
+    "addIngredient": "+ Add ingredient",
+    "getRecipe": "Get a recipe",
+    "generating": "Generating...",
+    "generatingRecipe": "Generating recipe",
+    "useTheseIngredients": "Use these ingredients",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "createAccount": "Create account",
+    "creatingAccount": "Creating account...",
+    "remove": "Remove",
+    "openSavedRecipes": "Open saved recipes",
+    "generateNewIdeas": "Generate new ideas",
+    "startBuildingRecipes": "Start building recipes",
+    "viewFullRecipe": "View full recipe"
+  },
+  "recipeResult": {
+    "title": "Dish Builder Recommends",
+    "recipe": "Recipe",
+    "ingredients": "Ingredients",
+    "cookingSteps": "Cooking steps",
+    "saveRecipe": "Save recipe",
+    "recipeSaved": "Recipe saved",
+    "recipeSavedSuccessfully": "Recipe saved successfully!",
+    "recipeSaveFailed": "Could not save recipe. Please try again.",
+    "imageUnavailable": "Image unavailable right now.",
+    "noMatchingImage": "No matching image found.",
+    "loadingImage": "Loading recipe image",
+    "photoBy": "Photo",
+    "noIngredientsListed": "No ingredients listed.",
+    "noStepsListed": "No steps listed."
+  },
+  "auth": {
+    "signIn": {
+      "badge": "Welcome back",
+      "title": "Sign in to your Dish Builder account",
+      "subtitle": "Access your saved recipes and keep your personal cooking preferences in sync.",
+      "formTitle": "Sign In",
+      "formSubtitle": "Use your email and password to continue.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "Enter your password",
+      "newHere": "New here?",
+      "createAccountLink": "Create an account",
+      "errors": {
+        "emailRequired": "Email is required.",
+        "emailInvalid": "Enter a valid email.",
+        "passwordRequired": "Password is required.",
+        "submitFailed": "Unable to sign in."
+      }
+    },
+    "signUp": {
+      "badge": "Start your kitchen profile",
+      "title": "Create your Dish Builder account",
+      "subtitle": "Save recipes, track preferences, and build a personal cooking space ready for future sync features.",
+      "formTitle": "Sign Up",
+      "formSubtitle": "Create your account in under a minute.",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "namePlaceholder": "Your name",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "At least 6 characters",
+      "confirmPasswordPlaceholder": "Repeat password",
+      "alreadyHaveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "errors": {
+        "nameRequired": "Name is required.",
+        "emailRequired": "Email is required.",
+        "emailInvalid": "Enter a valid email.",
+        "passwordMinLength": "Use at least 6 characters.",
+        "passwordMismatch": "Passwords do not match.",
+        "submitFailed": "Unable to create account."
+      }
+    }
+  },
+  "account": {
+    "badge": "Profile & settings",
+    "title": "Account",
+    "subtitle": "Manage your cooking profile, preferences, and saved recipe activity.",
+    "profileSummary": "Profile summary",
+    "defaultUserName": "Dish Builder User",
+    "defaultUserEmail": "account@dishbuilder.app",
+    "statusActive": "Active",
+    "savedRecipes": "Saved recipes",
+    "plan": "Plan",
+    "planFree": "Free",
+    "personalInfo": "Personal info",
+    "displayName": "Display name",
+    "email": "Email",
+    "preferences": "Preferences",
+    "dietaryProfile": "Dietary profile",
+    "weeklyMealGoals": "Weekly meal goals",
+    "notifications": "Notifications",
+    "notificationsEnabled": "Enabled",
+    "savedRecipesOverview": "Saved recipes overview",
+    "savedRecipesSummary_one": "You currently have {{count}} saved recipe.",
+    "savedRecipesSummary_other": "You currently have {{count}} saved recipes.",
+    "futureSettings": "Future settings",
+    "futureSettingsText": "This area is ready for connected features like pantry sync, shopping list defaults, and export options."
+  },
+  "savedRecipes": {
+    "badge": "Your cookbook",
+    "title": "Saved Recipes",
+    "subtitle": "Keep your best recipe ideas in one place and quickly jump back into cooking.",
+    "loading": "Loading saved recipes...",
+    "loadErrorFallback": "Unable to load saved recipes.",
+    "savedItemLabel": "Saved #{{index}}",
+    "fallbackTitle": "Saved recipe {{index}}",
+    "fallbackPreview": "A saved dish idea ready for your next cook."
+  },
+  "emptyStates": {
+    "noSavedRecipesTitle": "No saved recipes yet",
+    "noSavedRecipesDescription": "Save a recipe from the Dish Builder results and it will appear here for easy reuse.",
+    "loadingAccount": "Loading your account...",
+    "notSet": "Not set",
+    "comingSoon": "Coming soon"
+  },
+  "errors": {
+    "recipe": {
+      "prefix": "Failed to generate recipe",
+      "credentials": "Recipe generation is temporarily unavailable. Please check server API credentials.",
+      "invalidResponse": "Recipe service returned an invalid response. Please try again shortly.",
+      "rateLimited": "Recipe requests are temporarily rate-limited. Please try again in a moment.",
+      "unavailable": "Recipe service is temporarily unavailable. Please try again.",
+      "generic": "Could not generate recipe. Please try again."
+    }
+  }
+}

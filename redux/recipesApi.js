@@ -7,10 +7,10 @@ export const recipesApi = createApi({
   }),
   endpoints: (builder) => ({
     generateRecipe: builder.mutation({
-      query: (ingredients) => ({
+      query: ({ ingredients, language = "en" }) => ({
         url: "/api/recipe.php",
         method: "POST",
-        body: { ingredients },
+        body: { ingredients, language },
       }),
     }),
   }),

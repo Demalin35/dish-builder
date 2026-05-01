@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 
 export default function SignUp() {
+  const { t } = useTranslation();
   const { signUp, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -22,12 +24,12 @@ export default function SignUp() {
 
   function validate() {
     const nextErrors = {};
-    if (!formData.name.trim()) nextErrors.name = "Name is required.";
-    if (!formData.email.trim()) nextErrors.email = "Email is required.";
-    if (!/\S+@\S+\.\S+/.test(formData.email)) nextErrors.email = "Enter a valid email.";
-    if (formData.password.length < 6) nextErrors.password = "Use at least 6 characters.";
+    if (!formData.name.trim()) nextErrors.name = t("auth.signUp.errors.nameRequired");
+    if (!formData.email.trim()) nextErrors.email = t("auth.signUp.errors.emailRequired");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) nextErrors.email = t("auth.signUp.errors.emailInvalid");
+    if (formData.password.length < 6) nextErrors.password = t("auth.signUp.errors.passwordMinLength");
     if (formData.confirmPassword !== formData.password) {
-      nextErrors.confirmPassword = "Passwords do not match.";
+      nextErrors.confirmPassword = t("auth.signUp.errors.passwordMismatch");
     }
     return nextErrors;
   }
@@ -48,7 +50,7 @@ export default function SignUp() {
       });
       navigate("/account", { replace: true });
     } catch (error) {
-      setFormError(error.message || "Unable to create account.");
+      setFormError(error.message || t("auth.signUp.errors.submitFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -59,25 +61,26 @@ export default function SignUp() {
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.05fr_0.95fr]">
         <div className="auth-panel-gradient p-7 sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-            Start your kitchen profile
+            {t("auth.signUp.badge")}
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Create your Dish Builder account
+            {t("auth.signUp.title")}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-stone-700 sm:text-base">
-            Save recipes, track preferences, and build a personal cooking space
-            ready for future sync features.
+            {t("auth.signUp.subtitle")}
           </p>
         </div>
 
         <div className="p-6 sm:p-10">
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-900">Sign Up</h2>
-          <p className="mt-2 text-sm text-stone-600">Create your account in under a minute.</p>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-900">
+            {t("auth.signUp.formTitle")}
+          </h2>
+          <p className="mt-2 text-sm text-stone-600">{t("auth.signUp.formSubtitle")}</p>
 
           <form className="mt-6 space-y-4" onSubmit={handleSubmit} noValidate>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-stone-700" htmlFor="signup-name">
-                Name
+                {t("auth.signUp.nameLabel")}
               </label>
               <input
                 id="signup-name"
@@ -87,7 +90,7 @@ export default function SignUp() {
                   setFormData((prev) => ({ ...prev, name: event.target.value }))
                 }
                 className={`field-input ${errors.name ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                placeholder="Your name"
+                placeholder={t("auth.signUp.namePlaceholder")}
               />
               {errors.name && <p className="mt-1 text-xs font-medium text-rose-600">{errors.name}</p>}
             </div>
@@ -97,7 +100,7 @@ export default function SignUp() {
                 className="mb-1.5 block text-sm font-medium text-stone-700"
                 htmlFor="signup-email"
               >
-                Email
+                {t("auth.signUp.emailLabel")}
               </label>
               <input
                 id="signup-email"
@@ -107,7 +110,7 @@ export default function SignUp() {
                   setFormData((prev) => ({ ...prev, email: event.target.value }))
                 }
                 className={`field-input ${errors.email ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                placeholder="you@example.com"
+                placeholder={t("auth.signUp.emailPlaceholder")}
               />
               {errors.email && <p className="mt-1 text-xs font-medium text-rose-600">{errors.email}</p>}
             </div>
@@ -118,7 +121,7 @@ export default function SignUp() {
                   className="mb-1.5 block text-sm font-medium text-stone-700"
                   htmlFor="signup-password"
                 >
-                  Password
+                  {t("auth.signUp.passwordLabel")}
                 </label>
                 <input
                   id="signup-password"
@@ -128,7 +131,7 @@ export default function SignUp() {
                     setFormData((prev) => ({ ...prev, password: event.target.value }))
                   }
                   className={`field-input ${errors.password ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                  placeholder="At least 6 characters"
+                  placeholder={t("auth.signUp.passwordPlaceholder")}
                 />
                 {errors.password && (
                   <p className="mt-1 text-xs font-medium text-rose-600">{errors.password}</p>
@@ -140,7 +143,7 @@ export default function SignUp() {
                   className="mb-1.5 block text-sm font-medium text-stone-700"
                   htmlFor="signup-confirm-password"
                 >
-                  Confirm password
+                  {t("auth.signUp.confirmPasswordLabel")}
                 </label>
                 <input
                   id="signup-confirm-password"
@@ -153,7 +156,7 @@ export default function SignUp() {
                     }))
                   }
                   className={`field-input ${errors.confirmPassword ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                  placeholder="Repeat password"
+                  placeholder={t("auth.signUp.confirmPasswordPlaceholder")}
                 />
                 {errors.confirmPassword && (
                   <p className="mt-1 text-xs font-medium text-rose-600">
@@ -170,14 +173,14 @@ export default function SignUp() {
               className="btn btn-auth-primary btn-lg w-full"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Creating account..." : "Create account"}
+              {isSubmitting ? t("buttons.creatingAccount") : t("buttons.createAccount")}
             </button>
           </form>
 
           <p className="mt-5 text-sm text-stone-600">
-            Already have an account?{" "}
+            {t("auth.signUp.alreadyHaveAccount")}{" "}
             <Link to="/login" className="auth-link">
-              Sign in
+              {t("auth.signUp.signInLink")}
             </Link>
           </p>
         </div>

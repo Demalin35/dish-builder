@@ -1,0 +1,202 @@
+{
+  "header": {
+    "brand": "Dish Builder",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "savedRecipesFull": "Сохраненные рецепты",
+    "savedRecipesShort": "Сохраненные",
+    "account": "Аккаунт",
+    "logout": "Выйти",
+    "languageEn": "EN",
+    "languageRu": "RU"
+  },
+  "home": {
+    "badge": "Готовка из того, что есть",
+    "title": "Соберите ужин из того, что уже есть дома",
+    "subtitle": "Добавьте продукты из вашей кухни и получите практичные идеи рецептов за секунды.",
+    "inputPlaceholder": "например, орегано",
+    "quickAddTitle": "Быстро добавить",
+    "quickAddHint": "Нажмите для мгновенного добавления",
+    "ingredientsOnHand": "Ингредиенты под рукой",
+    "readyTitle": "Готовы к рецепту?",
+    "readySubtitle": "Сгенерируйте рецепт на основе вашего списка ингредиентов.",
+    "featuredInspiration": "Популярные идеи",
+    "needInspiration": "Нужны идеи?",
+    "inspirationSubtitle": "Добавьте ингредиенты выше или начните с популярного рецепта:",
+    "recipePick": "Выбор рецепта"
+  },
+  "ingredients": {
+    "egg": "Яйцо",
+    "cheese": "Сыр",
+    "tomato": "Помидор",
+    "garlic": "Чеснок",
+    "onion": "Лук",
+    "milk": "Молоко",
+    "bread": "Хлеб",
+    "butter": "Масло",
+    "chicken": "Курица",
+    "potato": "Картофель",
+    "rice": "Рис",
+    "pepper": "Перец",
+    "flour": "Мука",
+    "banana": "Банан",
+    "pasta": "Паста",
+    "oliveOil": "Оливковое масло",
+    "parmesan": "Пармезан",
+    "avocado": "Авокадо",
+    "salt": "Соль",
+    "lemon": "Лимон"
+  },
+  "recommendations": {
+    "items": {
+      "bananaPancakes": {
+        "title": "Банановые панкейки",
+        "description": "Пышный и быстрый завтрак."
+      },
+      "omelette": {
+        "title": "Омлет",
+        "description": "Классический и универсальный."
+      },
+      "garlicPasta": {
+        "title": "Паста с чесноком",
+        "description": "Уютное блюдо за 5 минут."
+      },
+      "avocadoToast": {
+        "title": "Тост с авокадо",
+        "description": "Просто и сытно."
+      }
+    }
+  },
+  "buttons": {
+    "addIngredient": "+ Добавить ингредиент",
+    "getRecipe": "Получить рецепт",
+    "generating": "Генерация...",
+    "generatingRecipe": "Генерируем рецепт",
+    "useTheseIngredients": "Использовать эти ингредиенты",
+    "signIn": "Войти",
+    "signingIn": "Вход...",
+    "createAccount": "Создать аккаунт",
+    "creatingAccount": "Создание аккаунта...",
+    "remove": "Удалить",
+    "openSavedRecipes": "Открыть сохраненные рецепты",
+    "generateNewIdeas": "Сгенерировать новые идеи",
+    "startBuildingRecipes": "Начать создавать рецепты",
+    "viewFullRecipe": "Открыть рецепт полностью"
+  },
+  "recipeResult": {
+    "title": "Dish Builder рекомендует",
+    "recipe": "Рецепт",
+    "ingredients": "Ингредиенты",
+    "cookingSteps": "Шаги приготовления",
+    "saveRecipe": "Сохранить рецепт",
+    "recipeSaved": "Рецепт сохранен",
+    "recipeSavedSuccessfully": "Рецепт успешно сохранен!",
+    "recipeSaveFailed": "Не удалось сохранить рецепт. Попробуйте еще раз.",
+    "imageUnavailable": "Изображение сейчас недоступно.",
+    "noMatchingImage": "Подходящее изображение не найдено.",
+    "loadingImage": "Загрузка изображения рецепта",
+    "photoBy": "Фото",
+    "noIngredientsListed": "Список ингредиентов пуст.",
+    "noStepsListed": "Шаги приготовления не указаны."
+  },
+  "auth": {
+    "signIn": {
+      "badge": "С возвращением",
+      "title": "Войдите в аккаунт Dish Builder",
+      "subtitle": "Получите доступ к сохраненным рецептам и храните ваши кулинарные предпочтения в одном месте.",
+      "formTitle": "Вход",
+      "formSubtitle": "Используйте email и пароль, чтобы продолжить.",
+      "emailLabel": "Email",
+      "passwordLabel": "Пароль",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "Введите пароль",
+      "newHere": "Впервые здесь?",
+      "createAccountLink": "Создать аккаунт",
+      "errors": {
+        "emailRequired": "Email обязателен.",
+        "emailInvalid": "Введите корректный email.",
+        "passwordRequired": "Пароль обязателен.",
+        "submitFailed": "Не удалось выполнить вход."
+      }
+    },
+    "signUp": {
+      "badge": "Создайте кулинарный профиль",
+      "title": "Создайте аккаунт Dish Builder",
+      "subtitle": "Сохраняйте рецепты, отслеживайте предпочтения и формируйте личное кулинарное пространство.",
+      "formTitle": "Регистрация",
+      "formSubtitle": "Создайте аккаунт меньше чем за минуту.",
+      "nameLabel": "Имя",
+      "emailLabel": "Email",
+      "passwordLabel": "Пароль",
+      "confirmPasswordLabel": "Подтвердите пароль",
+      "namePlaceholder": "Ваше имя",
+      "emailPlaceholder": "you@example.com",
+      "passwordPlaceholder": "Минимум 6 символов",
+      "confirmPasswordPlaceholder": "Повторите пароль",
+      "alreadyHaveAccount": "Уже есть аккаунт?",
+      "signInLink": "Войти",
+      "errors": {
+        "nameRequired": "Имя обязательно.",
+        "emailRequired": "Email обязателен.",
+        "emailInvalid": "Введите корректный email.",
+        "passwordMinLength": "Используйте минимум 6 символов.",
+        "passwordMismatch": "Пароли не совпадают.",
+        "submitFailed": "Не удалось создать аккаунт."
+      }
+    }
+  },
+  "account": {
+    "badge": "Профиль и настройки",
+    "title": "Аккаунт",
+    "subtitle": "Управляйте кулинарным профилем, предпочтениями и сохраненными рецептами.",
+    "profileSummary": "Сводка профиля",
+    "defaultUserName": "Пользователь Dish Builder",
+    "defaultUserEmail": "account@dishbuilder.app",
+    "statusActive": "Активен",
+    "savedRecipes": "Сохраненные рецепты",
+    "plan": "План",
+    "planFree": "Бесплатный",
+    "personalInfo": "Личные данные",
+    "displayName": "Имя",
+    "email": "Email",
+    "preferences": "Предпочтения",
+    "dietaryProfile": "Пищевые предпочтения",
+    "weeklyMealGoals": "Недельные цели питания",
+    "notifications": "Уведомления",
+    "notificationsEnabled": "Включены",
+    "savedRecipesOverview": "Обзор сохраненных рецептов",
+    "savedRecipesSummary_one": "Сейчас у вас {{count}} сохраненный рецепт.",
+    "savedRecipesSummary_few": "Сейчас у вас {{count}} сохраненных рецепта.",
+    "savedRecipesSummary_many": "Сейчас у вас {{count}} сохраненных рецептов.",
+    "savedRecipesSummary_other": "Сейчас у вас {{count}} сохраненных рецептов.",
+    "futureSettings": "Будущие настройки",
+    "futureSettingsText": "Этот раздел подготовлен для будущих функций: синхронизация кладовой, настройки списка покупок и экспорт."
+  },
+  "savedRecipes": {
+    "badge": "Ваша книга рецептов",
+    "title": "Сохраненные рецепты",
+    "subtitle": "Храните лучшие идеи рецептов в одном месте и быстро возвращайтесь к готовке.",
+    "loading": "Загружаем сохраненные рецепты...",
+    "loadErrorFallback": "Не удалось загрузить сохраненные рецепты.",
+    "savedItemLabel": "Сохранено #{{index}}",
+    "fallbackTitle": "Сохраненный рецепт {{index}}",
+    "fallbackPreview": "Сохраненная идея блюда для вашей следующей готовки."
+  },
+  "emptyStates": {
+    "noSavedRecipesTitle": "Пока нет сохраненных рецептов",
+    "noSavedRecipesDescription": "Сохраните рецепт из результатов Dish Builder, и он появится здесь для быстрого повторного использования.",
+    "loadingAccount": "Загружаем ваш аккаунт...",
+    "notSet": "Не задано",
+    "comingSoon": "Скоро"
+  },
+  "errors": {
+    "recipe": {
+      "prefix": "Не удалось сгенерировать рецепт",
+      "credentials": "Генерация рецепта временно недоступна. Проверьте серверные API-ключи.",
+      "invalidResponse": "Сервис рецептов вернул некорректный ответ. Попробуйте немного позже.",
+      "rateLimited": "Запросы к сервису рецептов временно ограничены. Попробуйте через минуту.",
+      "unavailable": "Сервис рецептов временно недоступен. Попробуйте еще раз.",
+      "generic": "Не удалось сгенерировать рецепт. Попробуйте еще раз."
+    }
+  }
+}

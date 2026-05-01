@@ -5,6 +5,7 @@ import { store } from "./redux/store";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
+import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

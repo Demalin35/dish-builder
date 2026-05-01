@@ -1,33 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import bananaPancakes from "../images/banana_pancakes.jpg";
 import omelette from "../images/Omelette.png";
 import garlicPasta from "../images/garlic-pasta.jpg";
 import avocadoToast from "../images/avocado-toast.avif";
 
 export default function RecipeCarousel({ onQuickAdd }) {
+  const { t } = useTranslation();
   const recipes = useMemo(
     () => [
       {
-        title: "Banana Pancakes",
-        description: "Fluffy + quick breakfast.",
+        key: "bananaPancakes",
         ingredients: ["egg", "flour", "milk", "banana"],
         image: bananaPancakes,
       },
       {
-        title: "Omelette",
-        description: "Classic + flexible.",
+        key: "omelette",
         ingredients: ["egg", "milk", "cheese", "butter"],
         image: omelette,
       },
       {
-        title: "Garlic Pasta",
-        description: "5-min comfort food.",
-        ingredients: ["pasta", "garlic", "olive oil", "parmesan"],
+        key: "garlicPasta",
+        ingredients: ["pasta", "garlic", "oliveOil", "parmesan"],
         image: garlicPasta,
       },
       {
-        title: "Avocado Toast",
-        description: "Simple + satisfying.",
+        key: "avocadoToast",
         ingredients: ["bread", "avocado", "salt", "lemon"],
         image: avocadoToast,
       },
@@ -54,13 +52,13 @@ export default function RecipeCarousel({ onQuickAdd }) {
   return (
     <section className="mx-auto mt-10 w-full max-w-6xl" aria-label="Recipe suggestions">
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
-        Featured inspiration
+        {t("home.featuredInspiration")}
       </p>
       <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-800 sm:text-4xl">
-        Need inspiration?
+        {t("home.needInspiration")}
       </h2>
       <p className="mt-2 max-w-xl text-sm text-stone-600 sm:text-base">
-        Add ingredients above, or start from a popular recipe:
+        {t("home.inspirationSubtitle")}
       </p>
 
       <div
@@ -86,17 +84,19 @@ export default function RecipeCarousel({ onQuickAdd }) {
           >
             {recipes.map((r) => (
               <article
-                key={r.title}
+                key={r.key}
                 className="grid min-w-full gap-5 p-5 sm:gap-8 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
               >
                 <div className="order-2 min-w-0 lg:order-1">
                   <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">
-                    Recipe pick
+                    {t("home.recipePick")}
                   </p>
                   <h3 className="mt-1 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
-                    {r.title}
+                    {t(`recommendations.items.${r.key}.title`)}
                   </h3>
-                  <p className="mt-2 text-base text-stone-600 sm:text-lg">{r.description}</p>
+                  <p className="mt-2 text-base text-stone-600 sm:text-lg">
+                    {t(`recommendations.items.${r.key}.description`)}
+                  </p>
 
                   <div className="mt-5 flex flex-wrap gap-2.5">
                     {r.ingredients.slice(0, 6).map((ing) => (
@@ -104,7 +104,7 @@ export default function RecipeCarousel({ onQuickAdd }) {
                         key={ing}
                         className="rounded-full bg-stone-100 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-stone-700"
                       >
-                        {ing}
+                        {t(`ingredients.${ing}`)}
                       </span>
                     ))}
                   </div>
@@ -115,14 +115,14 @@ export default function RecipeCarousel({ onQuickAdd }) {
                       className="btn btn-primary btn-md mt-6 w-full rounded-xl px-5 sm:w-auto"
                       onClick={() => onQuickAdd(r.ingredients)}
                     >
-                      Use these ingredients
+                      {t("buttons.useTheseIngredients")}
                     </button>
                   )}
                 </div>
 
                 <img
                   src={r.image}
-                  alt={r.title}
+                  alt={t(`recommendations.items.${r.key}.title`)}
                   className="order-1 h-56 w-full rounded-2xl object-cover shadow-[var(--shadow-soft)] sm:h-64 lg:order-2 lg:h-80"
                 />
               </article>

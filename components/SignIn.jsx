@@ -1,8 +1,10 @@
 import React from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 
 export default function SignIn() {
+  const { t } = useTranslation();
   const { signIn, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,9 +24,9 @@ export default function SignIn() {
 
   function validate() {
     const nextErrors = {};
-    if (!formData.email.trim()) nextErrors.email = "Email is required.";
-    if (!/\S+@\S+\.\S+/.test(formData.email)) nextErrors.email = "Enter a valid email.";
-    if (!formData.password) nextErrors.password = "Password is required.";
+    if (!formData.email.trim()) nextErrors.email = t("auth.signIn.errors.emailRequired");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) nextErrors.email = t("auth.signIn.errors.emailInvalid");
+    if (!formData.password) nextErrors.password = t("auth.signIn.errors.passwordRequired");
     return nextErrors;
   }
 
@@ -40,7 +42,7 @@ export default function SignIn() {
       await signIn(formData);
       navigate(from, { replace: true });
     } catch (error) {
-      setFormError(error.message || "Unable to sign in.");
+      setFormError(error.message || t("auth.signIn.errors.submitFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -51,25 +53,26 @@ export default function SignIn() {
       <section className="grid overflow-hidden rounded-3xl bg-white shadow-[var(--shadow-soft-lg)] lg:grid-cols-[1.1fr_0.9fr]">
         <div className="auth-panel-gradient p-7 sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-            Welcome back
+            {t("auth.signIn.badge")}
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Sign in to your Dish Builder account
+            {t("auth.signIn.title")}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-stone-700 sm:text-base">
-            Access your saved recipes and keep your personal cooking preferences
-            in sync.
+            {t("auth.signIn.subtitle")}
           </p>
         </div>
 
         <div className="p-6 sm:p-10">
-          <h2 className="text-2xl font-semibold tracking-tight text-stone-900">Sign In</h2>
-          <p className="mt-2 text-sm text-stone-600">Use your email and password to continue.</p>
+          <h2 className="text-2xl font-semibold tracking-tight text-stone-900">
+            {t("auth.signIn.formTitle")}
+          </h2>
+          <p className="mt-2 text-sm text-stone-600">{t("auth.signIn.formSubtitle")}</p>
 
           <form className="mt-6 space-y-4" onSubmit={handleSubmit} noValidate>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-stone-700" htmlFor="signin-email">
-                Email
+                {t("auth.signIn.emailLabel")}
               </label>
               <input
                 id="signin-email"
@@ -79,7 +82,7 @@ export default function SignIn() {
                   setFormData((prev) => ({ ...prev, email: event.target.value }))
                 }
                 className={`field-input ${errors.email ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                placeholder="you@example.com"
+                placeholder={t("auth.signIn.emailPlaceholder")}
               />
               {errors.email && <p className="mt-1 text-xs font-medium text-rose-600">{errors.email}</p>}
             </div>
@@ -89,7 +92,7 @@ export default function SignIn() {
                 className="mb-1.5 block text-sm font-medium text-stone-700"
                 htmlFor="signin-password"
               >
-                Password
+                {t("auth.signIn.passwordLabel")}
               </label>
               <input
                 id="signin-password"
@@ -99,7 +102,7 @@ export default function SignIn() {
                   setFormData((prev) => ({ ...prev, password: event.target.value }))
                 }
                 className={`field-input ${errors.password ? "border-rose-300 focus-visible:ring-rose-200" : ""}`}
-                placeholder="Enter your password"
+                placeholder={t("auth.signIn.passwordPlaceholder")}
               />
               {errors.password && (
                 <p className="mt-1 text-xs font-medium text-rose-600">{errors.password}</p>
@@ -113,14 +116,14 @@ export default function SignIn() {
               className="btn btn-auth-primary btn-lg w-full"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Signing in..." : "Sign in"}
+              {isSubmitting ? t("buttons.signingIn") : t("buttons.signIn")}
             </button>
           </form>
 
           <p className="mt-5 text-sm text-stone-600">
-            New here?{" "}
+            {t("auth.signIn.newHere")}{" "}
             <Link to="/signup" className="auth-link">
-              Create an account
+              {t("auth.signIn.createAccountLink")}
             </Link>
           </p>
         </div>

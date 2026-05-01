@@ -5,6 +5,16 @@ function cleanLine(line) {
     .trim();
 }
 
+function isStructuredRecipe(recipeData) {
+  return (
+    recipeData &&
+    typeof recipeData === "object" &&
+    !Array.isArray(recipeData) &&
+    Array.isArray(recipeData.ingredients) &&
+    Array.isArray(recipeData.steps)
+  );
+}
+
 function isIngredientsHeading(line) {
   return /^#{0,6}\s*ingredients\b[:\s-]*$/i.test(line.trim());
 }
@@ -35,6 +45,15 @@ function titleFromMarkdown(lines) {
 }
 
 export function parseRecipeContent(recipeMarkdown) {
+  if (isStructuredRecipe(recipeMarkdown)) {
+    return {
+      title: recipeMarkdown.title?.trim() || "Recipe Recommendation",
+      ingredients: recipeMarkdown.ingredients.map((item) => String(item).trim()).filter(Boolean),
+      steps: recipeMarkdown.steps.map((item) => String(item).trim()).filter(Boolean),
+      introText: recipeMarkdown.summary?.trim() || "",
+    };
+  }
+
   const lines = (recipeMarkdown || "").split("\n");
   const title = titleFromMarkdown(lines);
 
