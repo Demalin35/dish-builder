@@ -148,6 +148,26 @@
   }
 }
 
+.bottom-scroll-fade {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 30;
+  background: linear-gradient(
+    to bottom,
+    rgba(246, 249, 240, 0),
+    rgba(246, 249, 240, 0.88)
+  );
+}
+
+@media (max-width: 640px) {
+  .bottom-scroll-fade {
+    height: 110px;
+  }
+}
+
 @keyframes recipe-shimmer {
   to {
     background-position-x: -200%;

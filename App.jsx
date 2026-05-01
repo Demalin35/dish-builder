@@ -11,6 +11,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
+      <div className="bottom-scroll-fade" aria-hidden="true" />
 
       <Routes>
         <Route path="/" element={<Main />} />
