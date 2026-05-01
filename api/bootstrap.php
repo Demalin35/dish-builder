@@ -158,6 +158,21 @@ function ensure_schema(PDO $pdo): void
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     ");
+
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS weekly_meal_plan (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id CHAR(36) NOT NULL,
+            day_of_week TINYINT NOT NULL,
+            meal_type VARCHAR(20) NOT NULL,
+            saved_recipe_id INT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NOT NULL,
+            UNIQUE KEY weekly_slot_unique (user_id, day_of_week, meal_type),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (saved_recipe_id) REFERENCES saved_recipes(id) ON DELETE SET NULL
+        )
+    ");
 }
 
 function get_bearer_token(): ?string

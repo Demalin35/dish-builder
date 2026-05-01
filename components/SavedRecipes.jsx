@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { getUserSavedRecipes } from "../services/savedRecipesService";
+import WeeklyMealPlanner from "./WeeklyMealPlanner";
 
 function parseRecipeMeta(recipeText, fallbackIndex, t) {
   const lines = recipeText
@@ -116,6 +117,8 @@ export default function SavedRecipes() {
           {error}
         </p>
       )}
+
+      {!isLoading && !error && <WeeklyMealPlanner recipes={recipes} />}
 
       {!isLoading && !error && recipes.length === 0 && (
         <article className="surface-card mt-7 grid gap-5 rounded-3xl border-dashed p-6 sm:grid-cols-[1fr_auto] sm:items-center sm:p-8">
