@@ -1,23 +1,18 @@
 <?php
-header("Content-Type: application/json; charset=utf-8");
+require_once __DIR__ . "/bootstrap.php";
 
-$envPath = __DIR__ . '/.env';
-if (file_exists($envPath)) {
-    $env = parse_ini_file($envPath);
-    if ($env && isset($env['OPENAI_API_KEY'])) {
-        putenv('OPENAI_API_KEY=' . $env['OPENAI_API_KEY']);
-    }
+$apiKey = env_value("OPENAI_API_KEY");
+if (!$apiKey) {
+    json_response([
+        "error" => "Recipe generation is temporarily unavailable. Missing OPENAI_API_KEY.",
+    ], 500);
 }
-
-$apiKey = getenv('OPENAI_API_KEY');
 
 $input = json_decode(file_get_contents("php://input"), true);
 $ingredients = $input["ingredients"] ?? [];
 
 if (!is_array($ingredients) || count($ingredients) === 0) {
-    http_response_code(400);
-    echo json_encode(["error" => "ingredients must be a non-empty array"]);
-    exit;
+    json_response(["error" => "ingredients must be a non-empty array"], 400);
 }
 
 $prompt = "Create ONE cooking recipe in Markdown.
@@ -50,19 +45,22 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
 curl_close($ch);
+
+if ($response === false || $curlError) {
+    json_response(["error" => "Failed to reach recipe provider"], 502);
+}
 
 $data = json_decode($response, true);
 
 if ($httpCode !== 200) {
-    http_response_code($httpCode);
-    echo json_encode([
+    json_response([
         "error" => "OpenAI request failed",
         "details" => $data
-    ]);
-    exit;
+    ], $httpCode ?: 502);
 }
 
 $text = $data["choices"][0]["message"]["content"] ?? "";
 
-echo json_encode(["recipe" => trim($text)]);
+json_response(["recipe" => trim($text)]);

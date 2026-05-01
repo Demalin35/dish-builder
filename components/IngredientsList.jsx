@@ -5,6 +5,7 @@ export default function IngredientsList({
   onGetRecipe,
   onRemoveIngredient,
   onQuickAddIngredients,
+  isGenerating = false,
 }) {
   if (ingredients.length === 0) {
     return <RecipeCarousel onQuickAdd={onQuickAddIngredients} />;
@@ -52,9 +53,10 @@ export default function IngredientsList({
           </div>
           <button
             onClick={onGetRecipe}
+            disabled={isGenerating}
             className="btn btn-md sm:min-w-40 border border-white/50 bg-white/95 font-semibold text-brand-700 hover:bg-white"
           >
-            Get a recipe
+            {isGenerating ? "Generating..." : "Get a recipe"}
           </button>
         </div>
       )}

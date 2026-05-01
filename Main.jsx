@@ -4,6 +4,8 @@ import IngredientsList from "./components/IngredientsList";
 import { useGenerateRecipeMutation } from "./redux/recipesApi";
 // import { useLazyGenerateRecipeQuery } from "./redux/recipesApi";
 import DishBuilder from "./components/DishBuilder";
+import ToastMessage from "./components/ToastMessage";
+import LoadingOverlay from "./components/LoadingOverlay";
 import { useAuth } from "./context/AuthContext";
 import { saveRecipeForUser } from "./services/savedRecipesService";
 
@@ -22,14 +24,46 @@ const COMMON_INGREDIENTS = [
   { label: "Pepper", value: "pepper", emoji: "🫑" },
 ];
 
+function getRecipeErrorMessage(error) {
+  const backendMessage = error?.data?.error;
+  if (backendMessage) return backendMessage;
+
+  const status = error?.status;
+  const originalStatus = error?.originalStatus;
+  const parserErrorText = error?.error || "";
+
+  if (status === "PARSING_ERROR" || parserErrorText.includes("Unexpected token")) {
+    if (originalStatus === 401) {
+      return "Recipe generation is temporarily unavailable. Please check server API credentials.";
+    }
+    return "Recipe service returned an invalid response. Please try again shortly.";
+  }
+
+  if (status === 401 || originalStatus === 401) {
+    return "Recipe generation is temporarily unavailable. Please check server API credentials.";
+  }
+
+  if (status === 429 || originalStatus === 429) {
+    return "Recipe requests are temporarily rate-limited. Please try again in a moment.";
+  }
+
+  if (status === 500 || status === 502 || status === 503 || status === 504) {
+    return "Recipe service is temporarily unavailable. Please try again.";
+  }
+
+  return "Could not generate recipe. Please try again.";
+}
+
 export default function Main() {
   const [ingredients, setIngredients] = React.useState([]);
   const [recipe, setRecipe] = React.useState("");
+  const [toast, setToast] = React.useState({ message: "", tone: "success" });
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
 
   const [generateRecipe, { isLoading, isError, error }] =
     useGenerateRecipeMutation();
+  const recipeErrorMessage = React.useMemo(() => getRecipeErrorMessage(error), [error]);
 
   function removeIngredient(ingredientToRemove) {
     setIngredients((prev) =>
@@ -38,6 +72,8 @@ export default function Main() {
   }
 
   async function onGetRecipe() {
+    if (isLoading) return;
+
     try {
       const data = await generateRecipe(ingredients).unwrap();
       setRecipe(data.recipe);
@@ -73,17 +109,34 @@ export default function Main() {
     return saveRecipeForUser(recipe)
       .then((didSave) => {
         if (didSave) {
-          alert("Recipe saved!");
+          setToast({ message: "Recipe saved successfully!", tone: "success" });
           return true;
         }
-        alert("This recipe is already saved.");
+
+        setToast({
+          message: "Could not save recipe. Please try again.",
+          tone: "error",
+        });
         return false;
       })
-      .catch((error) => {
-        alert(error.message || "Unable to save recipe right now.");
+      .catch(() => {
+        setToast({
+          message: "Could not save recipe. Please try again.",
+          tone: "error",
+        });
         return false;
       });
   }
+
+  React.useEffect(() => {
+    if (!toast.message) return undefined;
+
+    const timeout = window.setTimeout(() => {
+      setToast({ message: "", tone: "success" });
+    }, 2800);
+
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   function handleQuickAddIngredients(newIngredients) {
     setIngredients((prev) => {
@@ -102,7 +155,12 @@ export default function Main() {
   }
 
   return (
-    <main className="container-page py-6 sm:py-10">
+    <main className="container-page relative py-6 sm:py-10">
+      {isLoading && <LoadingOverlay message="Generating recipe" />}
+      <div className="toast-message-wrap">
+        <ToastMessage tone={toast.tone} message={toast.message} />
+      </div>
+
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 px-4 py-6 shadow-[var(--shadow-soft-lg)] sm:px-7 sm:py-9">
         <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brand-300/30 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 bottom-0 h-44 w-44 rounded-full bg-brand-200/40 blur-3xl" />
@@ -177,16 +235,12 @@ export default function Main() {
         onGetRecipe={onGetRecipe}
         onRemoveIngredient={removeIngredient}
         onQuickAddIngredients={handleQuickAddIngredients}
+        isGenerating={isLoading}
       />
 
-      {isLoading && (
-        <p className="mt-5 text-center text-sm font-medium text-brand-700" aria-live="polite">
-          Generating recipe...
-        </p>
-      )}
       {isError && (
         <p className="mt-4 text-center text-sm font-medium text-rose-700" role="alert">
-          Failed to generate recipe: {error?.data?.error || "Unknown error"}
+          Failed to generate recipe: {recipeErrorMessage}
         </p>
       )}
 

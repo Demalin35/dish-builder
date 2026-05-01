@@ -1,5 +1,61 @@
 <?php
 
+ini_set("display_errors", "0");
+ini_set("html_errors", "0");
+ini_set("log_errors", "1");
+
+function load_server_env_file(string $path): void
+{
+    static $loaded = false;
+    if ($loaded) {
+        return;
+    }
+    $loaded = true;
+
+    if (!file_exists($path)) {
+        return;
+    }
+
+    $lines = @file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (!is_array($lines)) {
+        return;
+    }
+
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ($line === "" || str_starts_with($line, "#") || str_starts_with($line, ";")) {
+            continue;
+        }
+
+        $separatorPosition = strpos($line, "=");
+        if ($separatorPosition === false) {
+            continue;
+        }
+
+        $key = trim(substr($line, 0, $separatorPosition));
+        $value = trim(substr($line, $separatorPosition + 1));
+
+        if ($key === "") {
+            continue;
+        }
+
+        if (
+            (str_starts_with($value, "\"") && str_ends_with($value, "\"")) ||
+            (str_starts_with($value, "'") && str_ends_with($value, "'"))
+        ) {
+            $value = substr($value, 1, -1);
+        }
+
+        if (getenv($key) !== false && getenv($key) !== "") {
+            continue;
+        }
+
+        putenv($key . "=" . (string) $value);
+    }
+}
+
+load_server_env_file(__DIR__ . "/.env");
+
 function json_response(array $data, int $status = 200): void
 {
     http_response_code($status);
