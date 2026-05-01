@@ -91,6 +91,8 @@ export default function Main() {
   const [ingredients, setIngredients] = React.useState([]);
   const [recipe, setRecipe] = React.useState(null);
   const [toast, setToast] = React.useState({ message: "", tone: "success" });
+  const recipeResultRef = React.useRef(null);
+  const previousRecipeRef = React.useRef(null);
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
 
@@ -171,6 +173,23 @@ export default function Main() {
 
     return () => window.clearTimeout(timeout);
   }, [toast]);
+
+  React.useEffect(() => {
+    if (!recipe || isLoading || isError) {
+      previousRecipeRef.current = recipe;
+      return;
+    }
+
+    if (previousRecipeRef.current === recipe) return;
+    previousRecipeRef.current = recipe;
+
+    window.requestAnimationFrame(() => {
+      recipeResultRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [recipe, isLoading, isError]);
 
   function handleQuickAddIngredients(newIngredients) {
     setIngredients((prev) => {
@@ -279,7 +298,11 @@ export default function Main() {
         </p>
       )}
 
-      {recipe && <DishBuilder recipe={recipe} onSaveRecipe={saveRecipe} />}
+      {recipe && (
+        <div ref={recipeResultRef} className="scroll-mt-24 sm:scroll-mt-28">
+          <DishBuilder recipe={recipe} onSaveRecipe={saveRecipe} />
+        </div>
+      )}
     </main>
   );
 }
