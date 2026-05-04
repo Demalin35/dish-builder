@@ -104,6 +104,10 @@
     "photoBy": "Photo",
     "summary": "Summary",
     "notes": "Notes",
+    "optionalExtras": {
+      "title": "Optional additions",
+      "message": "Recipe generated successfully. Some extra ingredients were added as optional suggestions: {{ingredients}}. You can skip them or replace them with what you have."
+    },
     "unstructuredContent": "Recipe details",
     "noIngredientsListed": "No ingredients listed.",
     "noStepsListed": "No steps listed."

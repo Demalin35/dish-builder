@@ -118,6 +118,11 @@ export default function Main() {
             ...data.recipe,
             language,
             sourceIngredients: [...ingredients],
+            optionalExtraIngredients: Array.isArray(data.optionalExtraIngredients)
+              ? data.optionalExtraIngredients
+              : Array.isArray(data.warnings?.[0]?.ingredients)
+                ? data.warnings[0].ingredients
+                : [],
           }
         : null;
       setRecipe(recipePayload);

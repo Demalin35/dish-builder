@@ -88,7 +88,14 @@ function ingredient_alias_map(): array
             "помидорами",
             "томат", "томаты", "томатов", "томатами"
         ],
-        "potato" => ["potato", "potatoes", "картофель", "картошка", "картофелина"],
+        "pork" => ["pork", "свинина", "свинины", "свинину", "свининой"],
+        "soy_sauce" => ["soy sauce", "соевый соус", "соевого соуса", "соевым соусом"],
+        "beer" => ["beer", "пиво", "пива", "пивом"],
+        "potato" => [
+            "potato", "potatoes",
+            "картофель", "картофеля", "картофелем",
+            "картошка", "картошки", "картошкой", "картофелина"
+        ],
         "pepper" => ["pepper", "black pepper", "перец", "черный перец", "чёрный перец"],
         "egg" => ["egg", "eggs", "яйцо", "яйца", "яиц"],
         "milk" => ["milk", "молоко"],
@@ -322,33 +329,52 @@ if (!is_array($ingredients) || count($ingredients) === 0) {
     json_response(["error" => "ingredients must be a non-empty array"], 400);
 }
 
-$prompt = "Create ONE cooking recipe and return ONLY a JSON object.
-Use ONLY the user-provided ingredients as main ingredients:
+$prompt = "You are creating a recipe for a cook-from-what-you-have app.
+Create ONE cooking recipe and return ONLY a JSON object.
+
+The user-provided ingredients are the ONLY available main ingredients:
 
 " . implode(", ", $ingredients) . "
 
 Allowed additional pantry staples (optional, small amounts):
 - salt
-- pepper
+- pepper / black pepper
 - water
 - oil (olive oil or vegetable oil)
 - butter
 - sugar (white, granulated, or caster sugar)
 - baking powder
 - vanilla (vanilla extract/essence)
-- dry spices (paprika, oregano, basil, thyme, cumin, chili flakes)
-- vinegar or lemon juice as optional seasoning only
+- vinegar
+- lemon juice
+- common dry spices only: paprika, oregano, basil, thyme, cumin, chili flakes
+- for Russian, pantry equivalents are also allowed:
+  соль, перец/чёрный перец/черный перец, вода, масло/растительное масло/оливковое масло, сливочное масло, сахар, разрыхлитель, ваниль/ванильный экстракт/ванилин, уксус, лимонный сок, сухие специи: паприка, орегано, базилик, тимьян, кумин, хлопья чили
 
-Do NOT add any extra main ingredient that is not in the user-provided list.
-Do NOT add ingredients like cheese, milk, eggs, meat, fish, pasta, rice, bread, vegetables, or fruit unless they were explicitly provided.
-If a typical version requires a missing ingredient, adapt the recipe instead of adding it.
+Do NOT add any other main ingredient.
+If a normal version of the dish usually includes onion, garlic, carrots, cheese, cream, rice, pasta, eggs, milk, herbs, vegetables, fruit, sauce, stock, or broth, do NOT add them unless they are in the user-provided list or in the allowed pantry list.
+If something is missing, adapt the recipe instead of adding it.
 
 Example rule for baking:
 If input is egg, milk, flour, valid additions are only salt, sugar, water, oil, butter, baking powder, and vanilla.
 Invalid additions are syrup, berries, banana, cream, yogurt, chocolate, and cheese unless explicitly provided.
 
+Example RU input:
+Свинина, Соевый соус, Пиво, Картофель
+Valid ingredients:
+Свинина, картофель, соевый соус, пиво, соль, перец, масло, паприка.
+Invalid additions:
+лук, чеснок, морковь, сливки, сыр, бульон, рис, макароны, помидоры.
+
+Example EN input:
+Pork, Soy sauce, Beer, Potato
+Valid ingredients:
+Pork, potato, soy sauce, beer, salt, pepper, oil, paprika.
+Invalid additions:
+onion, garlic, carrot, cream, cheese, broth, rice, pasta, tomatoes.
+
 All ingredients in the response must be either:
-1) in the user-provided list, or
+1) one of the user-provided ingredients (possibly with quantity/preparation notes), or
 2) one of the allowed pantry staples.
 When listing ingredients, preserve the user-provided ingredient names as much as possible.
 You may add quantities or preparation notes, but do not substitute them with new ingredients.
@@ -401,8 +427,7 @@ $data = json_decode($response, true);
 
 if ($httpCode !== 200) {
     json_response([
-        "error" => "OpenAI request failed",
-        "details" => $data
+        "error" => "Recipe generation provider is temporarily unavailable",
     ], $httpCode ?: 502);
 }
 
@@ -416,14 +441,15 @@ if (!$recipe) {
 
 $invalidIngredients = validate_recipe_ingredients($recipe, $ingredients);
 if (count($invalidIngredients) > 0) {
-    $validationErrorMessage = $targetLanguage === "Russian"
-        ? "Пожалуйста, добавьте ещё несколько ингредиентов. Сгенерированный рецепт использовал продукты вне вашего списка и базовых домашних специй/добавок."
-        : "Please add a few more ingredients. The generated recipe used items outside your provided list and basic pantry staples.";
-
+    error_log("[recipe] optional_extra_ingredients=" . json_encode($invalidIngredients, JSON_UNESCAPED_UNICODE));
     json_response([
-        "error" => $validationErrorMessage,
-        "invalidIngredients" => $invalidIngredients,
-    ], 422);
+        "recipe" => $recipe,
+        "warnings" => [[
+            "code" => "optional_extra_ingredients",
+            "ingredients" => $invalidIngredients,
+        ]],
+        "optionalExtraIngredients" => $invalidIngredients,
+    ]);
 }
 
 json_response(["recipe" => $recipe]);

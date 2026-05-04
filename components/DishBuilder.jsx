@@ -18,6 +18,9 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
   const imageIngredients = Array.isArray(recipe?.sourceIngredients)
     ? recipe.sourceIngredients
     : parsedRecipe.ingredients;
+  const optionalExtraIngredients = Array.isArray(recipe?.optionalExtraIngredients)
+    ? recipe.optionalExtraIngredients
+    : [];
 
   React.useEffect(() => {
     let isActive = true;
@@ -88,6 +91,19 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
             {isSaved ? `✅ ${t("recipeResult.recipeSaved")}` : `⭐ ${t("recipeResult.saveRecipe")}`}
           </button>
         </div>
+
+        {optionalExtraIngredients.length > 0 && (
+          <section className="mb-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-900 sm:text-base">
+            <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+              {t("recipeResult.optionalExtras.title")}
+            </p>
+            <p className="mt-2 leading-relaxed">
+              {t("recipeResult.optionalExtras.message", {
+                ingredients: optionalExtraIngredients.join(", "),
+              })}
+            </p>
+          </section>
+        )}
 
         <div className="mb-6 overflow-hidden rounded-2xl border border-stone-200">
           {imageState.isLoading ? (
