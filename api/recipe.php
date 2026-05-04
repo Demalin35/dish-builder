@@ -69,15 +69,24 @@ function ingredient_alias_map(): array
     return [
         "chicken" => [
             "chicken", "курица", "курицы", "курицу",
+            "курицей",
             "куриное филе", "куриного филе",
+            "куриным филе", "филе курицы",
             "куриная грудка", "куриной грудки",
+            "куриную грудку",
             "chicken breast", "chicken fillet"
         ],
-        "onion" => ["onion", "onions", "лук", "лука", "луковица", "луковицы", "репчатый лук"],
+        "onion" => [
+            "onion", "onions",
+            "лук", "лука", "луком",
+            "луковица", "луковицы", "луковицей",
+            "репчатый лук", "репчатого лука"
+        ],
         "tomato" => [
             "tomato", "tomatoes",
             "помидор", "помидора", "помидоры", "помидоров",
-            "томат", "томаты", "томатов"
+            "помидорами",
+            "томат", "томаты", "томатов", "томатами"
         ],
         "potato" => ["potato", "potatoes", "картофель", "картошка", "картофелина"],
         "pepper" => ["pepper", "black pepper", "перец", "черный перец", "чёрный перец"],
@@ -112,6 +121,8 @@ function pantry_aliases(): array
         "перца",
         "черный перец",
         "чёрный перец",
+        "черного перца",
+        "чёрного перца",
         "water",
         "вода",
         "воды",
@@ -120,6 +131,7 @@ function pantry_aliases(): array
         "olive oil",
         "vegetable oil",
         "масло",
+        "масла",
         "оливковое масло",
         "оливкового масла",
         "растительное масло",
@@ -181,7 +193,8 @@ function canonical_ingredient_id(string $text, array $aliasMap): ?string
 function strip_quantity_prefix(string $value): string
 {
     $value = preg_replace('/^\s*[\d.,\/-]+\s*/u', '', $value);
-    $value = preg_replace('/^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|g|kg|gram|grams|ml|l|oz|pinch|pinches|dash|clove|cloves|piece|pieces|г|кг|гр|грамм|грамма|мл|л|литр|литра|стакан|стакана|стаканов|столовая ложка|столовые ложки|столовых ложки|ст л|ст ложка|ст ложки|стол ложка|стол ложки|ч л|ч ложка|ч ложки|чай ложка|чай ложки|чайная ложка|чайные ложки|чайных ложки|щепотка|щепотки|ломтик|ломтика|зубчик|зубчика|штука|штуки)\b\s*/iu', '', (string) $value);
+    $value = preg_replace('/^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|g|kg|gram|grams|ml|l|oz|pinch|pinches|dash|clove|cloves|piece|pieces|г|кг|гр|грамм|грамма|мл|л|литр|литра|стакан|стакана|стаканов|столовая ложка|столовые ложки|столовых ложки|ст л|ст ложка|ст ложки|стол ложка|стол ложки|ч л|ч ложка|ч ложки|чай ложка|чай ложки|чайная ложка|чайные ложки|чайных ложки|щепотка|щепотки|зубчик|зубчика|ломтик|ломтика|штука|штуки)\b\s*/iu', '', (string) $value);
+    $value = preg_replace('/^\s*(ст|стол|ч|чай)\s+л\b\s*/iu', '', (string) $value);
     $value = preg_replace('/^\s*(of|из)\s+/iu', '', (string) $value);
     $value = preg_replace('/^\s*(large|small|medium|big|fresh|большая|большой|большие|маленькая|маленький|средняя|средний|свежий|свежая)\s+/iu', '', (string) $value);
     return trim((string) $value);

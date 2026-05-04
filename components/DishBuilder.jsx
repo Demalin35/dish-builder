@@ -14,6 +14,10 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
   });
 
   const parsedRecipe = React.useMemo(() => parseRecipeContent(recipe), [recipe]);
+  const imageLanguage = typeof recipe?.language === "string" ? recipe.language : "en";
+  const imageIngredients = Array.isArray(recipe?.sourceIngredients)
+    ? recipe.sourceIngredients
+    : parsedRecipe.ingredients;
 
   React.useEffect(() => {
     let isActive = true;
@@ -24,7 +28,10 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
       hasError: false,
     });
 
-    fetchRecipeImage(parsedRecipe.title)
+    fetchRecipeImage(parsedRecipe.title, {
+      ingredients: imageIngredients,
+      language: imageLanguage,
+    })
       .then((image) => {
         if (!isActive) return;
         setImageState({
@@ -45,7 +52,7 @@ export default function DishBuilder({ recipe, onSaveRecipe }) {
     return () => {
       isActive = false;
     };
-  }, [parsedRecipe.title]);
+  }, [parsedRecipe.title, imageLanguage, imageIngredients]);
 
   async function handleSave() {
     const didSave = await onSaveRecipe(recipe);

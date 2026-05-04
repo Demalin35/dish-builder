@@ -113,7 +113,14 @@ export default function Main() {
     try {
       const language = i18n.resolvedLanguage?.startsWith("ru") ? "ru" : "en";
       const data = await generateRecipe({ ingredients, language }).unwrap();
-      setRecipe(data.recipe ?? null);
+      const recipePayload = data.recipe
+        ? {
+            ...data.recipe,
+            language,
+            sourceIngredients: [...ingredients],
+          }
+        : null;
+      setRecipe(recipePayload);
     } catch (e) {
       console.error(e);
     }
