@@ -145,6 +145,21 @@ function pantry_aliases(): array
         "специи",
         "dry spices",
         "сухие специи",
+        "sugar",
+        "white sugar",
+        "granulated sugar",
+        "caster sugar",
+        "сахар",
+        "сахара",
+        "baking powder",
+        "разрыхлитель",
+        "разрыхлителя",
+        "vanilla",
+        "vanilla extract",
+        "vanilla essence",
+        "ваниль",
+        "ванильный экстракт",
+        "ванилин",
         "paprika",
         "паприка",
         "паприки",
@@ -318,12 +333,19 @@ Allowed additional pantry staples (optional, small amounts):
 - water
 - oil (olive oil or vegetable oil)
 - butter
+- sugar (white, granulated, or caster sugar)
+- baking powder
+- vanilla (vanilla extract/essence)
 - dry spices (paprika, oregano, basil, thyme, cumin, chili flakes)
 - vinegar or lemon juice as optional seasoning only
 
 Do NOT add any extra main ingredient that is not in the user-provided list.
 Do NOT add ingredients like cheese, milk, eggs, meat, fish, pasta, rice, bread, vegetables, or fruit unless they were explicitly provided.
 If a typical version requires a missing ingredient, adapt the recipe instead of adding it.
+
+Example rule for baking:
+If input is egg, milk, flour, valid additions are only salt, sugar, water, oil, butter, baking powder, and vanilla.
+Invalid additions are syrup, berries, banana, cream, yogurt, chocolate, and cheese unless explicitly provided.
 
 All ingredients in the response must be either:
 1) in the user-provided list, or
@@ -344,6 +366,7 @@ Requirements:
 - Do not include markdown.
 - Do not include additional keys.
 - Ensure ingredients and steps arrays are non-empty.
+- Every ingredient item must include a practical quantity or amount.
 - Keep the recipe simple and practical.";
 
 $payload = json_encode([
@@ -352,7 +375,7 @@ $payload = json_encode([
         ["role" => "user", "content" => $prompt]
     ],
     "response_format" => ["type" => "json_object"],
-    "temperature" => 0.7,
+    "temperature" => 0.35,
     "max_tokens" => 600
 ]);
 
