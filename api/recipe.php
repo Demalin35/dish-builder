@@ -64,16 +64,134 @@ function normalize_ingredient_text(string $value): string
     return trim((string) $value);
 }
 
+function ingredient_alias_map(): array
+{
+    return [
+        "chicken" => [
+            "chicken", "курица", "курицы", "курицу",
+            "куриное филе", "куриного филе",
+            "куриная грудка", "куриной грудки",
+            "chicken breast", "chicken fillet"
+        ],
+        "onion" => ["onion", "onions", "лук", "лука", "луковица", "луковицы", "репчатый лук"],
+        "tomato" => [
+            "tomato", "tomatoes",
+            "помидор", "помидора", "помидоры", "помидоров",
+            "томат", "томаты", "томатов"
+        ],
+        "potato" => ["potato", "potatoes", "картофель", "картошка", "картофелина"],
+        "pepper" => ["pepper", "black pepper", "перец", "черный перец", "чёрный перец"],
+        "egg" => ["egg", "eggs", "яйцо", "яйца", "яиц"],
+        "milk" => ["milk", "молоко"],
+        "flour" => ["flour", "мука", "муки"],
+        "banana" => ["banana", "bananas", "банан", "бананы"],
+        "bread" => ["bread", "хлеб", "хлеба"],
+        "rice" => ["rice", "рис", "риса"],
+        "pasta" => ["pasta", "макароны", "паста"],
+        "cheese" => ["cheese", "сыр", "сыра"],
+        "butter" => ["butter", "сливочное масло"],
+        "olive_oil" => ["olive oil", "оливковое масло"],
+        "vegetable_oil" => ["vegetable oil", "растительное масло", "подсолнечное масло"],
+        "lemon" => ["lemon", "лимон", "лимона"],
+        "avocado" => ["avocado", "авокадо"],
+        "garlic" => ["garlic", "чеснок", "чеснока"],
+    ];
+}
+
+function pantry_aliases(): array
+{
+    return [
+        "salt",
+        "sea salt",
+        "kosher salt",
+        "соль",
+        "соли",
+        "pepper",
+        "black pepper",
+        "перец",
+        "перца",
+        "черный перец",
+        "чёрный перец",
+        "water",
+        "вода",
+        "воды",
+        "oil",
+        "cooking oil",
+        "olive oil",
+        "vegetable oil",
+        "масло",
+        "оливковое масло",
+        "оливкового масла",
+        "растительное масло",
+        "растительного масла",
+        "подсолнечное масло",
+        "подсолнечного масла",
+        "butter",
+        "сливочное масло",
+        "сливочного масла",
+        "spices",
+        "специи",
+        "dry spices",
+        "сухие специи",
+        "paprika",
+        "паприка",
+        "паприки",
+        "oregano",
+        "орегано",
+        "basil",
+        "базилик",
+        "базилика",
+        "thyme",
+        "тимьян",
+        "тимьяна",
+        "cumin",
+        "кумин",
+        "кумина",
+        "chili flakes",
+        "red pepper flakes",
+        "хлопья чили",
+        "vinegar",
+        "уксус",
+        "уксуса",
+        "lemon juice",
+        "лимонный сок",
+        "лимонного сока",
+    ];
+}
+
+function text_contains_alias(string $text, string $alias): bool
+{
+    $pattern = '/(?:^|[\s,\-])' . preg_quote($alias, '/') . '(?:$|[\s,\-])/u';
+    return preg_match($pattern, " {$text} ") === 1;
+}
+
+function canonical_ingredient_id(string $text, array $aliasMap): ?string
+{
+    foreach ($aliasMap as $canonical => $aliases) {
+        foreach ($aliases as $alias) {
+            $normalizedAlias = normalize_ingredient_text($alias);
+            if ($normalizedAlias !== "" && text_contains_alias($text, $normalizedAlias)) {
+                return $canonical;
+            }
+        }
+    }
+    return null;
+}
+
 function strip_quantity_prefix(string $value): string
 {
     $value = preg_replace('/^\s*[\d.,\/-]+\s*/u', '', $value);
-    $value = preg_replace('/^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|g|kg|gram|grams|ml|l|oz|pinch|pinches|dash|clove|cloves|piece|pieces)\b\s*/iu', '', (string) $value);
-    $value = preg_replace('/^\s*of\s+/iu', '', (string) $value);
+    $value = preg_replace('/^\s*(cup|cups|tbsp|tsp|teaspoon|teaspoons|tablespoon|tablespoons|g|kg|gram|grams|ml|l|oz|pinch|pinches|dash|clove|cloves|piece|pieces|г|кг|гр|грамм|грамма|мл|л|литр|литра|стакан|стакана|стаканов|столовая ложка|столовые ложки|столовых ложки|ст л|ст ложка|ст ложки|стол ложка|стол ложки|ч л|ч ложка|ч ложки|чай ложка|чай ложки|чайная ложка|чайные ложки|чайных ложки|щепотка|щепотки|ломтик|ломтика|зубчик|зубчика|штука|штуки)\b\s*/iu', '', (string) $value);
+    $value = preg_replace('/^\s*(of|из)\s+/iu', '', (string) $value);
+    $value = preg_replace('/^\s*(large|small|medium|big|fresh|большая|большой|большие|маленькая|маленький|средняя|средний|свежий|свежая)\s+/iu', '', (string) $value);
     return trim((string) $value);
 }
 
 function ingredient_matches_user_item(string $ingredient, array $userIngredientsNormalized): bool
 {
+    $aliasMap = ingredient_alias_map();
+    $ingredientCanonical = canonical_ingredient_id($ingredient, $aliasMap);
+
     foreach ($userIngredientsNormalized as $userItem) {
         if ($userItem === '') {
             continue;
@@ -81,8 +199,12 @@ function ingredient_matches_user_item(string $ingredient, array $userIngredients
         if ($ingredient === $userItem) {
             return true;
         }
-        $pattern = '/\b' . preg_quote($userItem, '/') . '\b/u';
-        if (preg_match($pattern, $ingredient) === 1) {
+        if (text_contains_alias($ingredient, $userItem) || text_contains_alias($userItem, $ingredient)) {
+            return true;
+        }
+
+        $userCanonical = canonical_ingredient_id($userItem, $aliasMap);
+        if ($ingredientCanonical !== null && $userCanonical !== null && $ingredientCanonical === $userCanonical) {
             return true;
         }
     }
@@ -91,28 +213,7 @@ function ingredient_matches_user_item(string $ingredient, array $userIngredients
 
 function ingredient_is_allowed_pantry(string $ingredient): bool
 {
-    $allowedPantryPhrases = [
-        "salt",
-        "sea salt",
-        "kosher salt",
-        "pepper",
-        "black pepper",
-        "water",
-        "oil",
-        "cooking oil",
-        "olive oil",
-        "vegetable oil",
-        "butter",
-        "paprika",
-        "oregano",
-        "basil",
-        "thyme",
-        "cumin",
-        "chili flakes",
-        "red pepper flakes",
-        "vinegar",
-        "lemon juice",
-    ];
+    $allowedPantryPhrases = pantry_aliases();
 
     $allowedTailPhrases = [
         "to taste",
@@ -120,14 +221,23 @@ function ingredient_is_allowed_pantry(string $ingredient): bool
         "optional",
         "for frying",
         "for cooking",
+        "по вкусу",
+        "по желанию",
+        "для жарки",
+        "для приготовления",
     ];
 
     foreach ($allowedPantryPhrases as $phrase) {
-        if ($ingredient === $phrase) {
+        $normalizedPhrase = normalize_ingredient_text($phrase);
+        if ($normalizedPhrase === "") {
+            continue;
+        }
+        if ($ingredient === $normalizedPhrase || text_contains_alias($ingredient, $normalizedPhrase)) {
             return true;
         }
         foreach ($allowedTailPhrases as $tail) {
-            if ($ingredient === "{$phrase} {$tail}") {
+            $normalizedTail = normalize_ingredient_text($tail);
+            if ($ingredient === "{$normalizedPhrase} {$normalizedTail}") {
                 return true;
             }
         }
@@ -205,6 +315,8 @@ If a typical version requires a missing ingredient, adapt the recipe instead of 
 All ingredients in the response must be either:
 1) in the user-provided list, or
 2) one of the allowed pantry staples.
+When listing ingredients, preserve the user-provided ingredient names as much as possible.
+You may add quantities or preparation notes, but do not substitute them with new ingredients.
 
 Response JSON schema:
 {
@@ -268,8 +380,12 @@ if (!$recipe) {
 
 $invalidIngredients = validate_recipe_ingredients($recipe, $ingredients);
 if (count($invalidIngredients) > 0) {
+    $validationErrorMessage = $targetLanguage === "Russian"
+        ? "Пожалуйста, добавьте ещё несколько ингредиентов. Сгенерированный рецепт использовал продукты вне вашего списка и базовых домашних специй/добавок."
+        : "Please add a few more ingredients. The generated recipe used items outside your provided list and basic pantry staples.";
+
     json_response([
-        "error" => "Please add a few more ingredients. The generated recipe used items outside your provided list and basic pantry staples.",
+        "error" => $validationErrorMessage,
         "invalidIngredients" => $invalidIngredients,
     ], 422);
 }
