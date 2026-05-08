@@ -63,13 +63,21 @@
         "title": "Omelette",
         "description": "Classic + flexible."
       },
-      "garlicPasta": {
-        "title": "Garlic Pasta",
-        "description": "5-min comfort food."
+      "potatoSoup": {
+        "title": "Potato Soup",
+        "description": "Creamy, warm, and made with everyday basics."
       },
       "avocadoToast": {
         "title": "Avocado Toast",
         "description": "Simple + satisfying."
+      },
+      "spaghettiBolognese": {
+        "title": "Spaghetti Bolognese",
+        "description": "A cozy pasta classic with rich tomato sauce and minced beef."
+      },
+      "filledPotatoes": {
+        "title": "Filled Potato",
+        "description": "A warm, simple potato dish with a soft cheesy filling."
       }
     }
   },

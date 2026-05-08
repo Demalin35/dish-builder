@@ -2,8 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import bananaPancakes from "../images/banana_pancakes.jpg";
 import omelette from "../images/Omelette.png";
-import garlicPasta from "../images/garlic-pasta.jpg";
+import potatoSoup from "../images/potato-soup.png";
 import avocadoToast from "../images/avocado-toast.avif";
+import spaghettiBolognese from "../images/spaghetti-bolognese.jpg";
+import filledPotatoes from "../images/filled-potatoes.jpg";
 
 export default function RecipeCarousel({ onQuickAdd }) {
   const { t } = useTranslation();
@@ -20,14 +22,24 @@ export default function RecipeCarousel({ onQuickAdd }) {
         image: omelette,
       },
       {
-        key: "garlicPasta",
-        ingredients: ["pasta", "garlic", "oliveOil", "parmesan"],
-        image: garlicPasta,
+        key: "potatoSoup",
+        ingredients: ["potato", "onion", "milk", "butter", "garlic"],
+        image: potatoSoup,
       },
       {
         key: "avocadoToast",
         ingredients: ["bread", "avocado", "salt", "lemon"],
         image: avocadoToast,
+      },
+      {
+        key: "spaghettiBolognese",
+        ingredients: ["pasta", "beef", "tomato", "onion", "garlic"],
+        image: spaghettiBolognese,
+      },
+      {
+        key: "filledPotatoes",
+        ingredients: ["potato", "cheese", "tomato", "butter"],
+        image: filledPotatoes,
       },
     ],
     []
@@ -50,7 +62,10 @@ export default function RecipeCarousel({ onQuickAdd }) {
   }, [isPaused, recipes.length]);
 
   return (
-    <section className="mx-auto mt-10 w-full max-w-6xl" aria-label="Recipe suggestions">
+    <section
+      className="mx-auto mt-10 w-full max-w-6xl"
+      aria-label="Recipe suggestions"
+    >
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
         {t("home.featuredInspiration")}
       </p>
@@ -140,7 +155,10 @@ export default function RecipeCarousel({ onQuickAdd }) {
         </button>
       </div>
 
-      <div className="mt-4 flex justify-center gap-2" aria-label="Carousel pagination">
+      <div
+        className="mt-4 flex justify-center gap-2"
+        aria-label="Carousel pagination"
+      >
         {recipes.map((_, i) => (
           <button
             key={i}
