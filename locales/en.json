@@ -29,6 +29,29 @@
       "title": "Turn saved recipes into a weekly menu",
       "description": "Save your favorite recipe ideas, then organize breakfast, lunch, and dinner for the whole week - no more 'what should we eat today?' panic.",
       "button": "Plan my week"
+    },
+    "kitchenMeasureConverter": {
+      "label": "KITCHEN HELP",
+      "title": "No kitchen scale? Convert it easily👩‍🍳",
+      "description": "Enter the amount from your recipe and we'll estimate how many spoons, teaspoons, or standard glasses you can use instead.",
+      "ingredientLabel": "Ingredient",
+      "ingredientPlaceholder": "e.g. sugar",
+      "quantityLabel": "Quantity",
+      "quantityPlaceholder": "100",
+      "unitLabel": "Measurement",
+      "unitGrams": "Grams (g)",
+      "unitMilliliters": "Milliliters (ml)",
+      "convertButton": "Convert measurement",
+      "converting": "Converting...",
+      "loadingHint": "Estimating household measurements...",
+      "resultTitle": "Conversion estimate",
+      "errors": {
+        "ingredientRequired": "Please enter an ingredient.",
+        "quantityRequired": "Please enter a quantity.",
+        "quantityInvalid": "Quantity must be a positive number.",
+        "unitInvalid": "Please choose grams or milliliters.",
+        "convertFailed": "Could not convert this measurement. Please try again."
+      }
     }
   },
   "ingredients": {

@@ -13,10 +13,17 @@ export const recipesApi = createApi({
         body: { ingredients, language },
       }),
     }),
+    convertMeasurement: builder.mutation({
+      query: ({ ingredient, quantity, unit, language = "en" }) => ({
+        url: "/api/convert_measurement.php",
+        method: "POST",
+        body: { ingredient, quantity, unit, language },
+      }),
+    }),
   }),
 });
 
-export const { useGenerateRecipeMutation } = recipesApi;
+export const { useGenerateRecipeMutation, useConvertMeasurementMutation } = recipesApi;
 
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 

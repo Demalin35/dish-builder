@@ -8,6 +8,7 @@ import DishBuilder from "./components/DishBuilder";
 import ToastMessage from "./components/ToastMessage";
 import LoadingOverlay from "./components/LoadingOverlay";
 import MealPlannerPromo from "./components/MealPlannerPromo";
+import KitchenMeasureConverter from "./components/KitchenMeasureConverter";
 import { useAuth } from "./context/AuthContext";
 import { saveRecipeForUser } from "./services/savedRecipesService";
 
@@ -318,6 +319,7 @@ export default function Main() {
       )}
 
       <MealPlannerPromo />
+      <KitchenMeasureConverter />
     </main>
   );
 }
