@@ -75,9 +75,9 @@ export default function Footer() {
 
   return (
     <footer className="site-footer mt-12 border-t border-[rgba(164,176,120,0.18)] sm:mt-14">
-      <div className="container-page py-10 sm:py-12">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          <div className="max-w-sm">
+      <div className="container-page py-8 sm:py-12">
+        <div className="footer-grid grid gap-6 lg:grid-cols-4 lg:gap-8">
+          <div className="footer-brand max-w-sm">
             <p className="text-lg font-semibold tracking-tight text-stone-900">
               {t("header.brand")}
             </p>
@@ -100,9 +100,10 @@ export default function Footer() {
             </div>
           </div>
 
-          <nav aria-label={t("footer.navigation")}>
+          <div className="footer-link-groups grid grid-cols-2 items-start gap-5 sm:gap-6 lg:contents">
+            <nav className="footer-nav-column min-w-0" aria-label={t("footer.navigation")}>
             <h2 className="footer-column-title">{t("footer.navigation")}</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="footer-link-list mt-3 space-y-2 sm:mt-4 sm:space-y-2.5">
               <li>
                 <a href="/#recipe-generator" className="footer-link" onClick={handleRecipeGeneratorClick}>
                   {t("footer.recipeGenerator")}
@@ -138,9 +139,9 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <nav aria-label={t("footer.support")}>
+          <nav className="footer-nav-column min-w-0" aria-label={t("footer.support")}>
             <h2 className="footer-column-title">{t("footer.support")}</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="footer-link-list mt-3 space-y-2 sm:mt-4 sm:space-y-2.5">
               <li>
                 <Link to="/how-it-works" className="footer-link">
                   {t("footer.howItWorks")}
@@ -158,15 +159,18 @@ export default function Footer() {
               </li>
             </ul>
           </nav>
+          </div>
 
-          <div>
+          <div className="footer-language min-w-0">
             <h2 className="footer-column-title">{t("footer.language")}</h2>
-            <p className="mt-4 text-sm text-stone-600">{t("footer.languageHint")}</p>
-            <LanguageSwitcher className="mt-4" />
+            <p className="mt-3 text-xs leading-relaxed text-stone-600 sm:mt-4 sm:text-sm">
+              {t("footer.languageHint")}
+            </p>
+            <LanguageSwitcher className="mt-3 sm:mt-4" />
           </div>
         </div>
 
-        <div className="footer-copyright mt-10 border-t border-[rgba(164,176,120,0.14)] pt-6 text-center text-xs text-stone-500 sm:text-sm">
+        <div className="footer-copyright mt-8 border-t border-[rgba(164,176,120,0.14)] pt-5 text-center text-xs text-stone-500 sm:mt-10 sm:pt-6 sm:text-sm">
           {t("footer.copyright")}
         </div>
       </div>
