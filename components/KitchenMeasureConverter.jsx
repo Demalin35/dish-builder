@@ -101,7 +101,10 @@ export default function KitchenMeasureConverter() {
   }
 
   return (
-    <section className="kitchen-measure-converter mx-auto mt-12 w-full max-w-6xl pb-10 sm:mt-14">
+    <section
+      id="kitchen-measure-converter"
+      className="kitchen-measure-converter mx-auto mt-12 w-full max-w-6xl scroll-mt-24 pb-10 sm:mt-14 sm:scroll-mt-28"
+    >
       <article className="kitchen-converter-card overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 p-5 sm:p-7">
         <header>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">

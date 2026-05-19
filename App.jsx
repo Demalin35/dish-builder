@@ -6,6 +6,8 @@ import Account from "./components/Account";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/Footer";
+import SupportPlaceholder from "./components/SupportPlaceholder";
 
 export default function App() {
   return (
@@ -17,6 +19,9 @@ export default function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/how-it-works" element={<SupportPlaceholder />} />
+        <Route path="/faq" element={<SupportPlaceholder />} />
+        <Route path="/contact" element={<SupportPlaceholder />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account />} />
@@ -26,6 +31,8 @@ export default function App() {
         <Route path="/saved" element={<Navigate to="/saved-recipes" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 }

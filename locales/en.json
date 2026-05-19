@@ -260,6 +260,39 @@
     "notSet": "Not set",
     "comingSoon": "Coming soon"
   },
+  "footer": {
+    "brandDescription": "Your helper for creating delicious dishes from what you already have at home.",
+    "navigation": "Navigation",
+    "recipeGenerator": "Recipe generator",
+    "savedRecipes": "Saved recipes",
+    "menuPlanner": "Menu planner",
+    "kitchenHelp": "Kitchen help",
+    "support": "Support",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "contactUs": "Contact us",
+    "language": "Language",
+    "languageHint": "Choose your preferred language for the app.",
+    "copyright": "© 2025 Dish Builder. All rights reserved.",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)"
+    },
+    "placeholderPages": {
+      "description": "This page is under construction. Check back soon.",
+      "backHome": "Back to homepage",
+      "howItWorks": {
+        "title": "How it works"
+      },
+      "faq": {
+        "title": "FAQ"
+      },
+      "contact": {
+        "title": "Contact us"
+      }
+    }
+  },
   "errors": {
     "recipe": {
       "prefix": "Failed to generate recipe",

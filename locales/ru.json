@@ -262,6 +262,39 @@
     "notSet": "Не задано",
     "comingSoon": "Скоро"
   },
+  "footer": {
+    "brandDescription": "Ваш помощник в создании вкусных блюд из того, что уже есть дома.",
+    "navigation": "Навигация",
+    "recipeGenerator": "Генератор рецептов",
+    "savedRecipes": "Сохранённые рецепты",
+    "menuPlanner": "Планировщик меню",
+    "kitchenHelp": "Кухонная помощь",
+    "support": "Поддержка",
+    "howItWorks": "Как это работает",
+    "faq": "Частые вопросы",
+    "contactUs": "Связаться с нами",
+    "language": "Язык",
+    "languageHint": "Выберите предпочитаемый язык приложения.",
+    "copyright": "© 2025 Dish Builder. Все права защищены.",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)"
+    },
+    "placeholderPages": {
+      "description": "Эта страница в разработке. Загляните позже.",
+      "backHome": "На главную",
+      "howItWorks": {
+        "title": "Как это работает"
+      },
+      "faq": {
+        "title": "Частые вопросы"
+      },
+      "contact": {
+        "title": "Связаться с нами"
+      }
+    }
+  },
   "errors": {
     "recipe": {
       "prefix": "Не удалось сгенерировать рецепт",

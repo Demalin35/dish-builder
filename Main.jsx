@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import IngredientsList from "./components/IngredientsList";
 import { useGenerateRecipeMutation } from "./redux/recipesApi";
@@ -96,6 +96,7 @@ export default function Main() {
   const recipeResultRef = React.useRef(null);
   const previousRecipeRef = React.useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, user } = useAuth();
 
   const [generateRecipe, { isLoading, isError, error }] =
@@ -189,6 +190,18 @@ export default function Main() {
   }, [toast]);
 
   React.useEffect(() => {
+    const sectionId = location.hash.replace("#", "");
+    if (!sectionId) return;
+
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [location.hash]);
+
+  React.useEffect(() => {
     if (!recipe || isLoading || isError) {
       previousRecipeRef.current = recipe;
       return;
@@ -228,7 +241,10 @@ export default function Main() {
         <ToastMessage tone={toast.tone} message={toast.message} />
       </div>
 
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 px-4 py-6 shadow-[var(--shadow-soft-lg)] sm:px-7 sm:py-9">
+      <section
+        id="recipe-generator"
+        className="scroll-mt-24 rounded-3xl bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 px-4 py-6 shadow-[var(--shadow-soft-lg)] sm:scroll-mt-28 sm:px-7 sm:py-9 relative overflow-hidden"
+      >
         <div className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brand-300/30 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 bottom-0 h-44 w-44 rounded-full bg-brand-200/40 blur-3xl" />
         <div className="relative grid items-end gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">

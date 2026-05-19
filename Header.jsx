@@ -1,15 +1,11 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "./context/AuthContext";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 export default function Header() {
   const { isAuthenticated, signOut, user } = useAuth();
-  const { t, i18n } = useTranslation();
-
-  function switchLanguage(language) {
-    if (i18n.language === language) return;
-    i18n.changeLanguage(language);
-  }
+  const { t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-30 border-b border-stone-200/70 bg-white/80 backdrop-blur-xl">
@@ -24,30 +20,7 @@ export default function Header() {
           className="inline-flex w-full items-center rounded-2xl border border-stone-200 bg-white/90 p-1 shadow-[var(--shadow-soft)] sm:w-auto sm:justify-start sm:gap-2"
           aria-label="Primary"
         >
-          <div className="inline-flex shrink-0 items-center gap-1 rounded-xl border border-stone-200 bg-white px-1 py-1">
-            <button
-              type="button"
-              onClick={() => switchLanguage("en")}
-              className={`rounded-lg px-2 py-1 text-xs font-semibold transition sm:px-2.5 ${
-                i18n.language.startsWith("en")
-                  ? "bg-brand-100 text-brand-700"
-                  : "text-stone-600 hover:bg-stone-100"
-              }`}
-            >
-              {t("header.languageEn")}
-            </button>
-            <button
-              type="button"
-              onClick={() => switchLanguage("ru")}
-              className={`rounded-lg px-2 py-1 text-xs font-semibold transition sm:px-2.5 ${
-                i18n.language.startsWith("ru")
-                  ? "bg-brand-100 text-brand-700"
-                  : "text-stone-600 hover:bg-stone-100"
-              }`}
-            >
-              {t("header.languageRu")}
-            </button>
-          </div>
+          <LanguageSwitcher className="shrink-0" />
 
           {!isAuthenticated && (
             <div className="ml-auto inline-flex items-center gap-1 sm:ml-0 sm:gap-2">
