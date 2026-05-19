@@ -54,16 +54,17 @@ Return a short answer using:
 - standard 200ml glass/cup when useful
 
 Rules:
-- Be clear that the result is approximate.
 - For grams, consider that different ingredients have different density.
 - For milliliters, use volume conversion.
 - Do not give a long explanation.
 - Do not invent complex nutritional information.
 - Keep the answer practical for home cooking.
 - Write the answer in {$targetLanguage}.
+- Return only the practical conversion sentence(s).
+- Do not include any disclaimer, caution, or note about estimates, spoon size, or ingredient density. The UI shows that separately.
 
 Example output:
-'Approximately 100g of sugar equals about 8 tablespoons or 24 teaspoons. This is an estimate because spoon size and ingredient density can vary.'";
+'Approximately 100g of sugar equals about 8 tablespoons or 24 teaspoons.'";
 
 $payload = json_encode([
     "model" => "gpt-4o-mini",

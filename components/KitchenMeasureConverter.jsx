@@ -4,6 +4,42 @@ import { useConvertMeasurementMutation } from "../redux/recipesApi";
 
 const UNITS = ["grams", "milliliters"];
 
+const DISCLAIMER_PATTERNS = [
+  /\s*this is an (?:approximate )?estimate[^.?!]*[.?!]?\s*$/i,
+  /\s*this is approximate[^.?!]*[.?!]?\s*$/i,
+  /\s*(?:because|as|since) spoon size and ingredient density[^.?!]*[.?!]?\s*$/i,
+  /\s*это приблизительн(?:ая|ую)?\s+оценк[^.?!]*[.?!]?\s*$/iu,
+  /\s*это\s+оценк[^.?!]*(?:ложек|плотност)[^.?!]*[.?!]?\s*$/iu,
+  /\s*(?:так как|поскольку)[^.?!]*(?:ложек|плотност)[^.?!]*[.?!]?\s*$/iu,
+];
+
+function isDisclaimerSentence(sentence) {
+  const text = sentence.trim();
+  if (!text) return true;
+
+  return (
+    /this is an?( approximate)? estimate/i.test(text) ||
+    /this is approximate/i.test(text) ||
+    /spoon size and ingredient density/i.test(text) ||
+    /это приблизительн/i.test(text) ||
+    /(?:размер ложек|плотност(?:ь|и) ингредиент)/iu.test(text)
+  );
+}
+
+export function stripDisclaimerFromConversion(text) {
+  if (!text?.trim()) return "";
+
+  let cleaned = text.trim();
+  for (const pattern of DISCLAIMER_PATTERNS) {
+    cleaned = cleaned.replace(pattern, "").trim();
+  }
+
+  const sentences = cleaned.split(/(?<=[.!?…])\s+/u).filter(Boolean);
+  const practical = sentences.filter((sentence) => !isDisclaimerSentence(sentence));
+
+  return (practical.length ? practical.join(" ") : cleaned).trim();
+}
+
 function validateForm({ ingredient, quantity, unit }, t) {
   const errors = {};
   const trimmedIngredient = ingredient.trim();
@@ -32,7 +68,7 @@ export default function KitchenMeasureConverter() {
   const [quantity, setQuantity] = React.useState("");
   const [unit, setUnit] = React.useState("grams");
   const [errors, setErrors] = React.useState({});
-  const [conversion, setConversion] = React.useState("");
+  const [displayConversion, setDisplayConversion] = React.useState("");
   const [formError, setFormError] = React.useState("");
 
   const [convertMeasurement, { isLoading }] = useConvertMeasurementMutation();
@@ -45,7 +81,7 @@ export default function KitchenMeasureConverter() {
     if (Object.keys(nextErrors).length > 0) return;
 
     try {
-      setConversion("");
+      setDisplayConversion("");
       const language = i18n.resolvedLanguage?.startsWith("ru") ? "ru" : "en";
       const data = await convertMeasurement({
         ingredient: ingredient.trim(),
@@ -53,7 +89,7 @@ export default function KitchenMeasureConverter() {
         unit,
         language,
       }).unwrap();
-      setConversion(data.conversion || "");
+      setDisplayConversion(stripDisclaimerFromConversion(data.conversion || ""));
     } catch (error) {
       setFormError(
         error?.data?.error ||
@@ -65,23 +101,25 @@ export default function KitchenMeasureConverter() {
   }
 
   return (
-    <section className="mx-auto mt-10 w-full max-w-6xl">
-      <article className="surface-card rounded-3xl p-5 sm:p-7">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-600">
-          {t("home.kitchenMeasureConverter.label")}
-        </p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
-          {t("home.kitchenMeasureConverter.title")}
-        </h3>
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-stone-600 sm:text-base">
-          {t("home.kitchenMeasureConverter.description")}
-        </p>
+    <section className="kitchen-measure-converter mx-auto mt-12 w-full max-w-6xl pb-10 sm:mt-14">
+      <article className="kitchen-converter-card overflow-hidden rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-100/70 via-white to-brand-50/85 p-5 sm:p-7">
+        <header>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
+            {t("home.kitchenMeasureConverter.label")}
+          </p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
+            {t("home.kitchenMeasureConverter.title")}
+          </h3>
+          <p className="mt-2.5 max-w-3xl text-sm leading-relaxed text-stone-600 sm:text-base">
+            {t("home.kitchenMeasureConverter.description")}
+          </p>
+        </header>
 
         <form className="mt-6" onSubmit={handleSubmit} noValidate>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="sm:col-span-2 lg:col-span-1">
               <label
-                className="mb-1.5 block text-sm font-medium text-stone-700"
+                className="mb-1.5 block text-sm font-medium text-stone-600"
                 htmlFor="kitchen-measure-ingredient"
               >
                 {t("home.kitchenMeasureConverter.ingredientLabel")}
@@ -92,7 +130,7 @@ export default function KitchenMeasureConverter() {
                 value={ingredient}
                 onChange={(event) => setIngredient(event.target.value)}
                 placeholder={t("home.kitchenMeasureConverter.ingredientPlaceholder")}
-                className="field-input"
+                className="kitchen-converter-field"
                 disabled={isLoading}
               />
               {errors.ingredient && (
@@ -104,7 +142,7 @@ export default function KitchenMeasureConverter() {
 
             <div>
               <label
-                className="mb-1.5 block text-sm font-medium text-stone-700"
+                className="mb-1.5 block text-sm font-medium text-stone-600"
                 htmlFor="kitchen-measure-quantity"
               >
                 {t("home.kitchenMeasureConverter.quantityLabel")}
@@ -118,7 +156,7 @@ export default function KitchenMeasureConverter() {
                 value={quantity}
                 onChange={(event) => setQuantity(event.target.value)}
                 placeholder={t("home.kitchenMeasureConverter.quantityPlaceholder")}
-                className="field-input"
+                className="kitchen-converter-field"
                 disabled={isLoading}
               />
               {errors.quantity && (
@@ -130,7 +168,7 @@ export default function KitchenMeasureConverter() {
 
             <div>
               <label
-                className="mb-1.5 block text-sm font-medium text-stone-700"
+                className="mb-1.5 block text-sm font-medium text-stone-600"
                 htmlFor="kitchen-measure-unit"
               >
                 {t("home.kitchenMeasureConverter.unitLabel")}
@@ -139,7 +177,7 @@ export default function KitchenMeasureConverter() {
                 id="kitchen-measure-unit"
                 value={unit}
                 onChange={(event) => setUnit(event.target.value)}
-                className="field-input"
+                className="kitchen-converter-field"
                 disabled={isLoading}
               >
                 <option value="grams">{t("home.kitchenMeasureConverter.unitGrams")}</option>
@@ -158,7 +196,7 @@ export default function KitchenMeasureConverter() {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
             <button
               type="submit"
-              className="btn btn-primary btn-md w-full sm:w-auto"
+              className="kitchen-converter-btn w-full sm:w-auto"
               disabled={isLoading}
             >
               {isLoading
@@ -166,9 +204,9 @@ export default function KitchenMeasureConverter() {
                 : t("home.kitchenMeasureConverter.convertButton")}
             </button>
             {isLoading && (
-              <div className="flex items-center gap-2 text-sm font-medium text-stone-600">
+              <div className="flex items-center gap-2 text-sm font-medium text-stone-500">
                 <span
-                  className="loading-spinner h-5 w-5 border-2"
+                  className="loading-spinner h-5 w-5 border-2 border-brand-100 border-t-brand-600"
                   aria-hidden="true"
                 />
                 <span aria-live="polite">{t("home.kitchenMeasureConverter.loadingHint")}</span>
@@ -183,16 +221,28 @@ export default function KitchenMeasureConverter() {
           )}
         </form>
 
-        {conversion && (
+        {displayConversion && (
           <div
-            className="recipe-section mt-6 border-brand-200 bg-brand-50/60"
+            className="kitchen-converter-result mt-6 rounded-2xl p-4 sm:p-5"
             role="status"
             aria-live="polite"
           >
-            <p className="recipe-section-title text-brand-700">
-              {t("home.kitchenMeasureConverter.resultTitle")}
-            </p>
-            <p className="text-sm leading-relaxed text-stone-700 sm:text-base">{conversion}</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+              <div className="kitchen-converter-result-icon" aria-hidden="true">
+                💡
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">
+                  {t("home.kitchenMeasureConverter.resultTitle")}
+                </p>
+                <p className="mt-2 text-sm font-normal leading-relaxed text-stone-700 sm:text-base">
+                  {displayConversion}
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-stone-500 sm:text-sm">
+                  {t("home.kitchenMeasureConverter.resultDisclaimer")}
+                </p>
+              </div>
+            </div>
           </div>
         )}
       </article>

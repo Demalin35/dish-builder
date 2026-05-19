@@ -44,7 +44,8 @@
       "convertButton": "Convert measurement",
       "converting": "Converting...",
       "loadingHint": "Estimating household measurements...",
-      "resultTitle": "Conversion estimate",
+      "resultTitle": "Approximate conversion",
+      "resultDisclaimer": "This is an approximate estimate because spoon size and ingredient density may vary.",
       "errors": {
         "ingredientRequired": "Please enter an ingredient.",
         "quantityRequired": "Please enter a quantity.",
