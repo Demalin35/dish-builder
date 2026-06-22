@@ -1,6 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { parseRecipeContent } from "../services/recipeContentService";
+import {
+  addItemsFromNames,
+  loadShoppingList,
+  persistShoppingList,
+} from "../services/shoppingListService";
 
 function tryParseStructuredRecipe(recipeContent) {
   if (typeof recipeContent !== "string") return recipeContent;
@@ -39,6 +44,13 @@ export default function RecipeContentSections({ recipeContent }) {
   const hasStructuredSections =
     parsedRecipe.ingredients.length > 0 || parsedRecipe.steps.length > 0;
 
+  function handleAddIngredientsToShoppingList() {
+    const current = loadShoppingList();
+    const updated = addItemsFromNames(current, parsedRecipe.ingredients);
+    if (updated.length === current.length) return;
+    persistShoppingList(updated);
+  }
+
   return (
     <div className="grid gap-5">
       {imageMeta?.imageUrl ? (
@@ -62,9 +74,20 @@ export default function RecipeContentSections({ recipeContent }) {
       {hasStructuredSections ? (
         <>
           <section className="recipe-section">
-            <h4 className="recipe-section-title">🧂 {t("recipeResult.ingredients")}</h4>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <h4 className="recipe-section-title">🧂 {t("recipeResult.ingredients")}</h4>
+              {parsedRecipe.ingredients.length > 0 && (
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm w-full shrink-0 sm:w-auto"
+                  onClick={handleAddIngredientsToShoppingList}
+                >
+                  {t("shoppingMode.addRecipeIngredients")}
+                </button>
+              )}
+            </div>
             {parsedRecipe.ingredients.length ? (
-              <ul className="recipe-list">
+              <ul className="recipe-list mt-3">
                 {parsedRecipe.ingredients.map((ingredient, index) => (
                   <li key={`${ingredient}-${index}`}>{ingredient}</li>
                 ))}

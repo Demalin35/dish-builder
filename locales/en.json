@@ -260,6 +260,24 @@
     "notSet": "Not set",
     "comingSoon": "Coming soon"
   },
+  "shoppingMode": {
+    "title": "Shopping list",
+    "open": "Open shopping list",
+    "close": "Close shopping list",
+    "addProduct": "Add product",
+    "productName": "Product name",
+    "downloadPdf": "Download PDF",
+    "clearList": "Clear list",
+    "clearConfirm": "Clear the entire shopping list?",
+    "empty": "No products yet",
+    "remove": "Remove",
+    "markAsBought": "Mark as bought",
+    "markAsNeeded": "Mark as needed",
+    "exportDate": "Exported on",
+    "itemCount_one": "{{count}} item",
+    "itemCount_other": "{{count}} items",
+    "addRecipeIngredients": "Add ingredients to shopping list"
+  },
   "footer": {
     "brandDescription": "Your helper for creating delicious dishes from what you already have at home.",
     "navigation": "Navigation",

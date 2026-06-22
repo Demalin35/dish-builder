@@ -262,6 +262,26 @@
     "notSet": "Не задано",
     "comingSoon": "Скоро"
   },
+  "shoppingMode": {
+    "title": "Список покупок",
+    "open": "Открыть список покупок",
+    "close": "Закрыть список покупок",
+    "addProduct": "Добавить продукт",
+    "productName": "Название продукта",
+    "downloadPdf": "Скачать PDF",
+    "clearList": "Очистить список",
+    "clearConfirm": "Очистить весь список покупок?",
+    "empty": "Пока нет продуктов",
+    "remove": "Удалить",
+    "markAsBought": "Отметить как куплено",
+    "markAsNeeded": "Отметить как нужно купить",
+    "exportDate": "Экспортировано",
+    "itemCount_one": "{{count}} продукт",
+    "itemCount_few": "{{count}} продукта",
+    "itemCount_many": "{{count}} продуктов",
+    "itemCount_other": "{{count}} продуктов",
+    "addRecipeIngredients": "Добавить ингредиенты в список покупок"
+  },
   "footer": {
     "brandDescription": "Ваш помощник в создании вкусных блюд из того, что уже есть дома.",
     "navigation": "Навигация",
